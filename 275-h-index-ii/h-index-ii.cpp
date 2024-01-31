@@ -4,7 +4,7 @@ public:
         int low=0,high=citations.size()-1;
         int mid;
         int n=citations.size();
-        if(n==0)return 0;
+        if(!n)return 0;
         int ans;
         while(low<=high){
             mid=(low+high)/2;
