@@ -13,7 +13,18 @@ public:
     int rob(vector<int>& nums) {
         int n=nums.size();
            vector<int>dp(n,-1);
-	    
-	return solve(n-1,nums,dp);
+	// return solve(n-1,nums,dp);
+    dp[0]=nums[0];
+    int fs=INT_MIN,ss=INT_MIN;
+    for(int i=1;i<n;i++){
+     
+        //fs =first step
+        fs=nums[i];
+        if(i-2>=0) fs+=dp[i-2];
+        // ss=second step
+         ss=dp[i-1];
+        dp[i]=max(fs,ss);
+    }
+    return dp[n-1];
     }
 };
