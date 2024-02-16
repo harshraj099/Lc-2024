@@ -20,7 +20,7 @@ public:
      
         //fs =first step
         fs=nums[i];
-        if(i-2>=0) fs+=dp[i-2];
+        if(i>1) fs+=dp[i-2];
         // ss=second step
          ss=dp[i-1];
         dp[i]=max(fs,ss);
