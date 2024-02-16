@@ -5,16 +5,16 @@ public:
         for(auto it:arr){
             m[it]++;
         }
-        multimap<int,int>mp;
+        multiset<int>s;
         for(auto it:m){
-            mp.insert({it.second,it.first});
+            s.insert(it.second);
         }
       int ct=0;
-        for(auto it:mp){
-          if(k-it.first>=0) {ct++;
-              k=k-it.first;}
+        for(auto it:s){
+          if(k-it>=0) {ct++;
+              k=k-it;}
               else break;
         }
-        return mp.size()-ct;
+        return s.size()-ct;
     }
 };
