@@ -13,9 +13,29 @@ public:
         return dp[idx][k]=take+not_take;
     }
     int change(int amount, vector<int>& coins) {
-              vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
-       int ans= f(coins.size()-1,coins,amount,dp);
-    //    if(ans==1e9)return -1;
-       return ans;
+    //           vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
+    //    int ans= f(coins.size()-1,coins,amount,dp);
+    //    return ans;
+
+       // tabulation 
+        vector<vector<int>>dp(coins.size(),vector<int>(amount+1,0));
+        for(int k=0;k<=amount;k++)
+     { 
+            if(k%coins[0]==0) dp[0][k]=1;
+            else dp[0][k]=0;
+        }
+        
+        for(int i=1;i<coins.size();i++){
+            for(int sum=0;sum<=amount;sum++){
+                  int not_take=dp[i-1][sum];
+        int take=0;
+        if(coins[i]<=sum)take=dp[i][sum-coins[i]];
+
+       dp[i][sum]=take+not_take;
+            }
+        }
+      
+     int ans= dp[coins.size()-1][amount];
+     return ans;
     }
 };
