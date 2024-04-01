@@ -29,9 +29,34 @@ public:
        else return false;                    
     }
     bool isMatch(string s, string p) {
-                 int n=s.size();
+        //          int n=s.size();
+        // int m=p.size();
+        // vector<vector<int>>dp(n,vector<int>(m,-1));
+        // return f(n-1,m-1,s,p,dp);
+
+        //tabulation
+                int n=s.size();
         int m=p.size();
-        vector<vector<int>>dp(n,vector<int>(m,-1));
-        return f(n-1,m-1,s,p,dp);
+        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        // basecase
+        dp[0][0]=1;
+        for(int i=1;i<=n;i++)dp[i][0]=0; //if(j==0)
+         for(int j=1;j<=m;j++){  
+            int fl=1;                   
+            for(int idx=1;idx<=j;idx++){
+                if(p[idx-1]!='*') {fl=0;
+                break;}
+            }
+         dp[0][j]=fl;
+         if(!fl)break;
+        }
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+      if(s[i-1]==p[j-1] || p[j-1]=='?')   dp[i][j]=dp[i-1][j-1];
+     else if(p[j-1]=='*') dp[i][j]= dp[i-1][j]|dp[i][j-1];
+       else dp[i][j]=0; 
+            }
+        }
+        return dp[n][m];
     }
 };
