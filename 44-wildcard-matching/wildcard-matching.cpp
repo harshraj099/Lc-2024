@@ -13,21 +13,20 @@ public:
 
         if(dp[i][j]!=-1)return dp[i][j];
         // matching condition
-        int take=0;
-         int not_take=0;
-      if(s[i]==p[j] || p[j]=='?')  take= f(i-1,j-1,s,p,dp);
+    //     int take=0;
+    //      int not_take=0;
+    //   if(s[i]==p[j] || p[j]=='?')  take= f(i-1,j-1,s,p,dp);
     // or
-    // if(s[i]==p[j])  return dp[i][j]=0+f(i-1,j-1,s,p,dp);
+      if(s[i]==p[j] || p[j]=='?')  return dp[i][j]=f(i-1,j-1,s,p,dp);
         
         // not matching 
          
-   else if(p[j]=='*') not_take =f(i-1,j,s,p,dp)|f(i,j-1,s,p,dp);
-   else return false;
-        return dp[i][j]=take | not_take ;
+//    else if(p[j]=='*') not_take =f(i-1,j,s,p,dp)|f(i,j-1,s,p,dp);
+//    else return false;
+//         return dp[i][j]=take | not_take ;
     // or
-//    return dp[i][j]= 1+min(f(i,j-1,s,p,dp),     //insertion
-//                           min (f(i-1,j,s,p,dp),    //deletion
-//                            f(i-1,j-1,s,p,dp)));  // replace
+ else if(p[j]=='*')  return dp[i][j]= f(i-1,j,s,p,dp)|f(i,j-1,s,p,dp);
+       else return false;                    
     }
     bool isMatch(string s, string p) {
                  int n=s.size();
