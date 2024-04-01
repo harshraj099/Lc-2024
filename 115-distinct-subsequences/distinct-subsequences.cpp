@@ -7,12 +7,16 @@ public:
 
         if(dp[i][j]!=-1)return dp[i][j];
         // if matches on idx
-        int take=0;
-      if(s[i]==t[j])  take= f(i-1,j-1,s,t,dp)+f(i-1,j,s,t,dp);
+    //     int take=0;
+    //   if(s[i]==t[j])  take= f(i-1,j-1,s,t,dp)+f(i-1,j,s,t,dp);
+    // or
+    if(s[i]==t[j])  return dp[i][j]= f(i-1,j-1,s,t,dp)+f(i-1,j,s,t,dp);
         
         // not matches
-    int not_take =f(i-1,j,s,t,dp);
-        return dp[i][j]=max(take,not_take);
+    // int not_take =f(i-1,j,s,t,dp);
+    //     return dp[i][j]=max(take,not_take);
+    // or
+   return dp[i][j]= f(i-1,j,s,t,dp);
     }
     int numDistinct(string s, string t) {
                 int n=s.size();
