@@ -18,11 +18,11 @@ public:
       int k=word.size();
       int n=board.size();
       int m=board[0].size();
-        // vector<vector<int>>vis(n,vector<int>(m,0));
+        vector<vector<int>>vis(n,vector<int>(m,0));
       for(int i=0;i<n;i++){
         for(int j=0;j<m;j++){
             if(board[i][j]==word[0]){
-        vector<vector<int>>vis(n,vector<int>(m,0));
+        // vector<vector<int>>vis(n,vector<int>(m,0));
                 vis[i][j]=1;
                 if(f(i,j,board,n,m,1,k,word,vis))return true;
             }
