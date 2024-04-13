@@ -12,8 +12,8 @@ public:
     // histogram method to find min height
 
       for(int i=0;i<m;i++){
-        int mini=1e9;
-        for(int j=i;j<m;j++){
+        // int mini=1e9;
+        for(int j=i,mini=1e9;j<m;j++){
             mini=min(mini,height[j]);
             int area=mini*(j-i+1);
             maxArea=max(maxArea,area);
