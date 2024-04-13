@@ -12,7 +12,7 @@ public:
         bool check=false;
         for(int i=idx;i<s.size();i++){
             st+=s[i];
-            if(present(st,wordDict) && f(i+1,s,wordDict,dp))check=true;
+            if(present(st,wordDict) && f(i+1,s,wordDict,dp))return dp[idx]=check=true;
         }
         return dp[idx]=check;
     }
