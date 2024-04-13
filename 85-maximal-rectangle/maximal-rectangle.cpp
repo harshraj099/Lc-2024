@@ -13,8 +13,9 @@ public:
 
       for(int i=0;i<m;i++){
         // int mini=1e9;
-        for(int j=i,mini=1e9;j<m;j++){
-            mini=min(mini,height[j]);
+        // or                           //note
+        for(int j=i,mini=1e9;j<m;j++){ //yaha mini 1 hi bar initialise ho raha hai 
+            mini=min(mini,height[j]);  // bar bar nahi 
             int area=mini*(j-i+1);
             maxArea=max(maxArea,area);
         }
