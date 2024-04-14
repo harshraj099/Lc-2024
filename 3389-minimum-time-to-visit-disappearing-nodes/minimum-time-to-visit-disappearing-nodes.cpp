@@ -21,10 +21,10 @@ public:
             q.pop();
             if(vis[node])continue;
             vis[node]=1;
-            if(ttm<disappear[node]){
-                ans[node]=ttm;
-            }
-            else ans[node]=-1;
+            // if(ttm<disappear[node]){
+            //     ans[node]=ttm;
+            // }
+            // else ans[node]=-1;
             for(auto it:adj[node]){
                 int neigh=it.first;
                 int time=it.second;
