@@ -2,7 +2,6 @@ class Solution {
 public:
     vector<int> minimumTime(int n, vector<vector<int>>& edges, vector<int>& disappear) {
          priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>q;
-        // queue<pair<int,int>>q;
         q.push({0,0}); //time,node
             vector<int>vis(n,0);
         vector<pair<int,int>>adj[n];
@@ -30,7 +29,7 @@ public:
                 int neigh=it.first;
                 int time=it.second;
                 if(ttm+time<ans[neigh] && ttm+time<disappear[neigh]){
-                    // ans[neigh]=ttm+time;
+                    ans[neigh]=ttm+time;
                     q.push({ttm+time,neigh});
                 }
             }
