@@ -11,17 +11,17 @@
  */
 class Solution {
 public:
-    void f(TreeNode* root,string &s,vector<string>&vec){
-        if(root->left==NULL && root->right==NULL){
-             s+=to_string(root->val);
-            //  cout<<s<<" ";
+    void f(TreeNode* root,string s,vector<string>&vec){    //string &s
+        if(root->left==NULL && root->right==NULL){         // agar & hata rahe ho to no need 
+             s+=to_string(root->val);                      // need of pop_back()
+             //  cout<<s<<" ";
             vec.push_back(s);
-        s.pop_back();
+        // s.pop_back();
         return;}
         s+=to_string(root->val);
        if(root->left!=NULL)f(root->left,s,vec);
     if(root->right!=NULL) f(root->right,s,vec);
-        s.pop_back();
+        // s.pop_back();
         return;
         }
     int sumNumbers(TreeNode* root) {
