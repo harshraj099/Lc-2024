@@ -27,7 +27,7 @@ void f(TreeNode* root,string s){
     s+=97+root->val;
     f(root->left,s);
     f(root->right,s);
-    s.pop_back();
+    // s.pop_back();
 }
     string smallestFromLeaf(TreeNode* root) {
         string s="";
