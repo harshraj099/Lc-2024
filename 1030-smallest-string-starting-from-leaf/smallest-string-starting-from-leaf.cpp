@@ -12,7 +12,8 @@
 class Solution {
 public:
 string ans="";
-void f(TreeNode* root,string s){
+void f(TreeNode* root,string s)
+{
     if(!root)return;
     if(root->left==NULL && root->right==NULL){
     s+=97+root->val;
@@ -27,6 +28,7 @@ void f(TreeNode* root,string s){
     s+=97+root->val;
     f(root->left,s);
     f(root->right,s);
+    return ;
     // s.pop_back();
 }
     string smallestFromLeaf(TreeNode* root) {
