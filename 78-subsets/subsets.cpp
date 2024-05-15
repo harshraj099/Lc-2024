@@ -23,6 +23,7 @@ public:
 
 
         // or
+        // bit manipulation
     int n=nums.size();
       int subsets=1<<n;
 
