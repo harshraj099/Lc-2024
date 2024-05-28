@@ -43,8 +43,8 @@ public:
     ListNode   *odd=head,*even=head->next,*dummy=even;
         
         while(even!=NULL && even->next!=NULL){
-        if(odd->next!=NULL)odd->next=odd->next->next;
-         if(even->next!=NULL)even->next=even->next->next;
+        odd->next=odd->next->next;
+         even->next=even->next->next;
          odd=odd->next;
          even=even->next;
       
