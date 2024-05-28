@@ -12,36 +12,45 @@ class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
         if(!head || head->next==NULL)return head;
-        vector<int>arr;
-        // odd
-        ListNode* temp=head;
-        while(temp!=NULL){
-            arr.push_back(temp->val);
-            // cout<<temp->val<<" ";
-           if(temp->next!=NULL)temp=temp->next->next;
-           else temp=temp->next;
-        }
-        if(temp)arr.push_back(temp->val);
-        // cout<<endl;
-        // even
-        temp=head->next;
-         while(temp!=NULL){
-            arr.push_back(temp->val);
-            // cout<<temp->val<<" ";
-           if(temp->next!=NULL)temp=temp->next->next;
-           else temp=temp->next;
-        }
-        if(temp)arr.push_back(temp->val);
-        // cout<<endl;
-        // for(auto it:arr)cout<<it<<" ";
-        temp=head;
-            int i=0;
-            while(temp!=NULL){
-            temp->val=arr[i];
-            temp=temp->next;
-            i++;
-            }
+    //     vector<int>arr;
+    //     // odd
+    //     ListNode* temp=head;
+    //     while(temp!=NULL){
+    //         arr.push_back(temp->val);
+    //        if(temp->next!=NULL)temp=temp->next->next;
+    //        else temp=temp->next;
+    //     }
+    //     if(temp)arr.push_back(temp->val);
+    //     // even
+    //     temp=head->next;
+    //      while(temp!=NULL){
+    //         arr.push_back(temp->val);
+    //        if(temp->next!=NULL)temp=temp->next->next;
+    //        else temp=temp->next;
+    //     }
+    //     if(temp)arr.push_back(temp->val);
+    //     temp=head;
+    //         int i=0;
+    //         while(temp!=NULL){
+    //         temp->val=arr[i];
+    //         temp=temp->next;
+    //         i++;
+    //         }
     
-    return head;
+    // return head;
+
+    // method 2
+    ListNode   *odd=head,*even=head->next,*dummy=even;
+        
+        while(even!=NULL && even->next!=NULL){
+        if(odd->next!=NULL)odd->next=odd->next->next;
+         if(even->next!=NULL)even->next=even->next->next;
+         odd=odd->next;
+         even=even->next;
+      
+        }
+        odd->next=dummy;
+
+        return head;
     }
 };
