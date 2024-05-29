@@ -52,9 +52,11 @@ public:
                fast=fast->next;
                slow=slow->next;
            }
-        //    cout<<slow->val;
-       if(slow->next!=NULL)slow->next=slow->next->next;
-        //   delete slow->next;
+        // delete slow->next;
+    //    if(slow->next!=NULL)slow->next=slow->next->next;
+    // or
+      slow->next=slow->next->next;
+
           return head;
      
     }
