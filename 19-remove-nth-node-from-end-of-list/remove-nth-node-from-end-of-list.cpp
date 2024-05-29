@@ -28,16 +28,34 @@ public:
         //     head=head->next;
         //     return head;
         // }
-        int count=0;
-        ct(head,count);
-        cout<<count;
-        if(count==1)return NULL;
-        int r=count-n+1;
-        if(r==1){
-            head=head->next;
-            return head; 
-        }
-        f(1,head,r);
-        return head;
+        // int count=0;
+        // ct(head,count);
+        // cout<<count;
+        // if(count==1)return NULL;
+        // int r=count-n+1;
+        // if(r==1){
+        //     head=head->next;
+        //     return head; 
+        // }
+        // f(1,head,r);
+        // return head;
+
+        if(head->next==NULL && n==1)return NULL;
+         ListNode* fast=head,*slow=head;
+           int ct=1;
+            while(ct<=n){
+               ct++;
+             if(fast!=NULL)fast=fast->next;
+           }
+           if(!fast)return head->next;
+           while(fast->next!=NULL){
+               fast=fast->next;
+               slow=slow->next;
+           }
+        //    cout<<slow->val;
+       if(slow->next!=NULL)slow->next=slow->next->next;
+        //   delete slow->next;
+          return head;
+     
     }
 };
