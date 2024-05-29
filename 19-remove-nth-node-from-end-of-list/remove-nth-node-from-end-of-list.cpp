@@ -45,7 +45,7 @@ public:
            int ct=1;
             while(ct<=n){
                ct++;
-             if(fast!=NULL)fast=fast->next;
+             fast=fast->next;
            }
            if(!fast)return head->next;
            while(fast->next!=NULL){
