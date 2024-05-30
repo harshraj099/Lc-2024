@@ -18,7 +18,6 @@ public:
         dummy->next=prev;
       prev=dummy;
     }  
-        // dummy->next=prev;
-        return dummy;
+        return prev;
     }
 };
