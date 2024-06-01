@@ -17,8 +17,16 @@ public:
        return true;
     }
     bool hasCycle(ListNode *head) {
-        map<ListNode*,int>m;
-       return  !f(head,m);
-     
+    //     map<ListNode*,int>m;
+    //    return  !f(head,m);
+
+    // or 
+     ListNode *fast=head,*slow=head;
+     while(fast!=NULL && fast->next!=NULL){
+        slow=slow->next;
+        fast=fast->next->next;
+        if(slow==fast)return true;
+     }
+     return false;
     }
 };
