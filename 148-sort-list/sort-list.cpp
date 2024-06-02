@@ -33,7 +33,7 @@ public:
         ListNode* slow=head,*fast=head;
         ListNode* ret=NULL;
         while(fast!=NULL && fast->next!=NULL){
-            ret=slow;
+            ret=slow;         // get 1st middle
             slow=slow->next;
             fast=fast->next->next;
         }
