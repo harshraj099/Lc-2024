@@ -7,17 +7,21 @@ public:
         }
         // l
        if(l>0){
-                s+='(';
-        f(l-1,r,ans,s);
-        s.pop_back();
+        //         s+='(';
+        // f(l-1,r,ans,s);
+        // s.pop_back();
+        // or
+        f(l-1,r,ans,s+"(");
         }
 
         //r
 
        if(r>l){
-                s+=')';
-        f(l,r-1,ans,s); 
-        s.pop_back();
+        //         s+=')';
+        // f(l,r-1,ans,s); 
+        // s.pop_back();
+        // or
+         f(l,r-1,ans,s+")");
         } 
     }
     vector<string> generateParenthesis(int n) {
