@@ -5,14 +5,11 @@ public:
             ans.push_back(s);
             return;
         }
-        // for(int i=idx;i<digits.size();i++){
             int n=digits[idx]-'0';
-            // cout<<n<<" ";
             for(int j=0;j<vs[n].size();j++){
                 string p=vs[n];
                 f(idx+1,digits,vs,ans,s+p[j]); 
             }
-        // }
     }
     vector<string> letterCombinations(string digits) {
         if(digits=="")return{};
