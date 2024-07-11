@@ -1,20 +1,15 @@
 class Solution {
 public:
     void f(int idx,vector<int>&temp,vector<int>&v,vector<vector<int>>&ans,int target,int n){
-       if(target==0 && n>0){
-        // cout<<"->"<<target<<endl;
-        return;}
+       if(target==0 && n>0) return;
         if(idx<0 && target>0)return;
         if(n==0 ){
-            // if(idx<0 && target==0)ans.push_back(v);
          if(target==0)ans.push_back(v);
-        //   cout<<"hi";
             return ;
         }
-        // take 
         
+        // take 
         if(target>=temp[idx]){
-        //  cout<<temp[idx];   
         v.push_back(temp[idx]);
         f(idx-1,temp,v,ans,target-temp[idx],n-1);
         v.pop_back();
