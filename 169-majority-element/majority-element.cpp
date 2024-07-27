@@ -26,11 +26,13 @@ public:
         }
 
         // check if more than n/2
-        int ct=0;
-        for(auto it:nums){
-            if(it==ele)ct++;
-        }
-        if(ct>=n/2)return ele;
-        else return -1;
+        // int ct=0;
+        // for(auto it:nums){
+        //     if(it==ele)ct++;
+        // }
+        // if(ct>=n/2)return ele;
+        // else return -1;
+
+        return ele;
     }
 };
