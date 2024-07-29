@@ -18,7 +18,7 @@ public:
                 }
             }
         //   if(sum>0) cnt+=1;
-          if(sum<=mid) cnt+=1;
+           cnt+=1;
 
             if(cnt==k){
                 mini=min(mini,mid);
