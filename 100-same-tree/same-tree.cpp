@@ -26,17 +26,21 @@ void solve2(TreeNode* q,vector<int>&vq){
     solve2(q->right,vq);
 }
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        vector<int>vp,vq;
-       solve(p,vp); 
-       solve2(q,vq); 
-       for(auto ele:vp)cout<<ele<<" ";
-       cout<<endl;
-       for(auto ele:vq)cout<<ele<<" ";
+    //     vector<int>vp,vq;
+    //    solve(p,vp); 
+    //    solve2(q,vq); 
+    //    for(auto ele:vp)cout<<ele<<" ";
+    //    cout<<endl;
+    //    for(auto ele:vq)cout<<ele<<" ";
+    //     if(vp!=vq)return false;
+    //     return true;
+    if(!p && !q)return true;
+    if((!p && q) || (p && !q))return false;
 
-        // for(int i=0;i<vp.size();i++){
-        //     if(vp[i]!=vq[i])return false;
-        // }
-        if(vp!=vq)return false;
-        return true;
+    if(p->val!=q->val)return false;
+   if(!isSameTree(p->left,q->left))return false;
+    if(!isSameTree(p->right,q->right))return false;
+
+    return true;
     }
 };
