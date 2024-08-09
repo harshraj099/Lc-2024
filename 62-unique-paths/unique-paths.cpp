@@ -19,13 +19,11 @@ for(int i=0;i<m;i++){
     for(int j=0;j<n;j++){
         if(i==0 && j==0)dp[i][j]=1;
         else {
-            int top;
-        if(j-1>=0)top=dp[i][j-1];
-        if(j-1<0)top=0;
-        int left;
-        if(i-1>=0)left=dp[i-1][j];
-        if(i-1<0)left=0;
-         dp[i][j]=top+left;
+         int down=0;
+         if(i-1>=0)down=dp[i-1][j];
+         int right=0;
+         if(j-1>=0)right=dp[i][j-1];
+         dp[i][j]=right+down;
         }
     }
 }
