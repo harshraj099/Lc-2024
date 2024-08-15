@@ -9,7 +9,7 @@ public:
         if(text1[i]==text2[j])take=1+f(i+1,j+1,n,m,text1,text2,dp);
         else not_take=max(f(i+1,j,n,m,text1,text2,dp),f(i,j+1,n,m,text1,text2,dp));
 
-        return  dp[i][j]=max(take,not_take);
+        return  dp[i][j]=take+not_take;
     }
     int longestCommonSubsequence(string text1, string text2) {
         long long n=text1.size();
