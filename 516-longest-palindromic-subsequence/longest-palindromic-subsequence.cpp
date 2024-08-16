@@ -1,47 +1,26 @@
 class Solution {
 public:
-     int f(int idx1,int idx2,string &s, string &t,vector<vector<int>>&dp){
-        if(idx1<0 || idx2<0)return 0;
-        if(dp[idx1][idx2]!=-1)return dp[idx1][idx2];
+     int f(int i,int j,int n,int m,string &text1, string &text2, vector<vector<int>>&dp){
+        if(i>=n || j>=m)return 0;
 
-        // if matches on idx
-        int take=0;
-        if(s[idx1]==t[idx2]) take=1+f(idx1-1,idx2-1,s,t,dp);
-    //     or
-    //   if(text1[idx1]==text2[idx2])  return 1+f(idx1-1,idx2-1,text1,text2,dp);
-        
-        // not matches
-        int nt=0;
-        if(s[idx1]!=t[idx2])  nt=0+max(f(idx1-1,idx2,s,t,dp),f(idx1,idx2-1,s,t,dp));
-       //or
-//return  dp[idx1][idx2]=max(f(idx1-1,idx2,text1,text2,dp),f(idx1,idx2-1,text1,text2,dp));
+        if(dp[i][j]!=-1)return dp[i][j];
+        // take
+        int take=0,not_take=0;
+        if(text1[i]==text2[j])take=1+f(i+1,j+1,n,m,text1,text2,dp);
+        else not_take=max(f(i+1,j,n,m,text1,text2,dp),f(i,j+1,n,m,text1,text2,dp));
 
-        return dp[idx1][idx2]=take+nt;
+        return  dp[i][j]=max(take,not_take);
     }
     int longestPalindromeSubseq(string s) {
-        string t=s;
+        string temp=s;
         reverse(s.begin(),s.end());
+        string t=s;
+        s=temp;
+
           int n=s.size();
         int m=t.size();
         vector<vector<int>>dp(n,vector<int>(m,-1));
-       return  f(n-1,m-1,s,t,dp);
-    //      string ans="";
-    //     int i=n-1,j=m-1;
-    //     while(i>=0 && j>=0){
-    //       if(s[i]==t[j]){
-    //           ans+=s[i];
-    //           i--;
-    //           j--;
-    //       }
-    //       else {
-    //           if(dp[i][j-1]>dp[i-1][j]){
-    //               j--;
-    //           }
-    //           else i--;
-         
-    //       }
-    //     }
-    //     // reverse(ans.begin(),ans.end());
-    //    return ans;
+      return   f(0,0,n,m,s,t,dp);
+  
     }
 };
