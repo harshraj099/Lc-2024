@@ -8,9 +8,9 @@ public:
         // take
         int take=1e9,state=1e9;
         if(text1[i]==text2[j])take=f(i+1,j+1,n,m,text1,text2,dp);
-        else state=min(1+f(i,j+1,n,m,text1,text2,dp),//insert
-                        min(1+f(i+1,j,n,m,text1,text2,dp),//delete
-                        1+f(i+1,j+1,n,m,text1,text2,dp)));//replace
+        else state=1+min(f(i,j+1,n,m,text1,text2,dp),//insert
+                        min(f(i+1,j,n,m,text1,text2,dp),//delete
+                        f(i+1,j+1,n,m,text1,text2,dp)));//replace
 
         return  dp[i][j]=min(take,state);
     }
