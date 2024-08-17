@@ -1,53 +1,45 @@
 class Solution {
 public:
-    	 int f(int idx1,int idx2,string &s, string &t,vector<vector<int>>&dp){
-        if(idx1<=0 || idx2<=0)return 0;
-        if(dp[idx1][idx2]!=-1)return dp[idx1][idx2];
-
-        // if matches on idx
-      if(s[idx1-1]==t[idx2-1])  return dp[idx1][idx2]= 1+f(idx1-1,idx2-1,s,t,dp);
-        
-        // not matches
-       return  dp[idx1][idx2]=max(f(idx1-1,idx2,s,t,dp),f(idx1,idx2-1,s,t,dp));
-    }
     string shortestCommonSupersequence(string str1, string str2) {
-            int n=str1.size();
-        int m=str2.size();
-        vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
-    f(n,m,str1,str2,dp);
-        //      for(auto it:dp){
-        //      for(auto i:it)cout<<i<<" ";
-        //      cout<<endl;
-        //  }
-         string ans="";
-        int i=n,j=m;
-        while(i>0 && j>0){
-          if(str1[i-1]==str2[j-1]){
-              ans+=str1[i-1];
-              i--;
-              j--;
-          }
-          else {
-              if(dp[i][j-1]>dp[i-1][j]){
-                ans+=str2[j-1];
-                  j--;
-              }
-              else {
-                ans+=str1[i-1];
-                i--;
+         // tabulation
+         int n=str1.size(),m=str2.size();
+        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+           int take=0,not_take=0;
+        if(str1[i-1]==str2[j-1])take=1+dp[i-1][j-1];
+        else not_take=max(dp[i-1][j],dp[i][j-1]);
+
+         dp[i][j]=max(take,not_take);
+            }
+        }
+        string ans="";
+        int l=n,r=m;
+        while(l>0 && r>0){
+            if(str1[l-1]==str2[r-1]){
+                ans+=str1[l-1];
+                l--;
+                r--;
+            }
+            else if(dp[l-1][r]>dp[l][r-1]){
+                ans+=str1[l-1];
+                l--;
+            }
+            else {
+                ans+=str2[r-1];
+                r--;
                 }
-         
-          }
         }
-        while(i>0){
-            ans+=str1[i-1];
-            i--;
-        }
-         while(j>0){
-            ans+=str2[j-1];
-            j--;
-        }
-             reverse(ans.begin(),ans.end());
-            return ans;
+       while(l>0){
+        ans+=str1[l-1];
+        l--;
+       }
+       while(r>0){
+        ans+=str2[r-1];
+        r--;
+       }
+       reverse(ans.begin(),ans.end());
+        return ans;
     }
 };
