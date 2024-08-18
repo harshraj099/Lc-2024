@@ -13,7 +13,24 @@ int f(int ind,int n,vector<int>& prices,vector< vector<vector<int>>>&dp,int fl,i
 }
     int maxProfit(int k, vector<int>& prices) {
          int n=prices.size();
-       vector<vector<vector<int>>>dp(n,vector<vector<int>>(2,vector<int>(k+1,-1)));
-       return f(0,n,prices,dp,0,k);
+    //    vector<vector<vector<int>>>dp(n,vector<vector<int>>(2,vector<int>(k+1,-1)));
+    //    return f(0,n,prices,dp,0,k);
+        // tabulation
+       vector< vector<vector<int>>>dp(n+1,vector<vector<int>>(2,vector<int>(k+1,0)));
+                  int profit=0;
+        for(int i=n-1;i>=0;i--){
+            for(int fl=0;fl<=1;fl++){
+                for(int limit=k-1;limit>=0;limit--){
+                  //buy
+    if(!fl) profit=max(-prices[i]+dp[i+1][!fl][limit],dp[i+1][fl][limit]);
+    // sell
+    if(fl)profit=max(prices[i]+dp[i+1][!fl][limit+1],dp[i+1][fl][limit]);
+
+       dp[i][fl][limit]=profit;
+    //    cout<<dp[i][fl][limit]<<endl;   
+                }
+            }
+        }
+        return dp[0][0][0];
     }
 };
