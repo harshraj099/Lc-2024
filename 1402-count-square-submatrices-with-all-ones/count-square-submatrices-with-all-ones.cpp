@@ -18,7 +18,7 @@ public:
                     else mini=0;
                 }
                 matrix[i][j]=max(matrix[i][j],mini+1);
-                ans+=mini+1;
+                ans+=matrix[i][j];
                 // cout<<i<<" "<<j<<"->"<<matrix[i][j]<<" "<<mini<<" "<<ans<<endl;
                 }
             }
