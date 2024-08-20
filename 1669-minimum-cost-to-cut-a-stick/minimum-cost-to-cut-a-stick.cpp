@@ -15,9 +15,21 @@ public:
             int m=cuts.size();
         cuts.insert(cuts.begin(),0);
         cuts.push_back(n);
-        vector<vector<int>>dp(m+2,vector<int>(m+2,-1));
+        // vector<vector<int>>dp(m+2,vector<int>(m+2,-1));
         sort(cuts.begin(),cuts.end());
-        return f(1,cuts.size()-2,cuts,dp);
-
+        // return f(1,cuts.size()-2,cuts,dp);
+        // tabulation
+        vector<vector<int>>dp(m+2,vector<int>(m+2,0));
+        for(int i=m;i>=1;i--){
+            for(int j=i;j<m+1;j++){
+             int mini=1e9;
+        for(int idx=i;idx<=j;idx++){
+            int sum=dp[i][idx-1]+dp[idx+1][j]+cuts[j+1]-cuts[i-1];
+            mini=min(mini,sum);
+        }
+         dp[i][j]=mini;   
+            }
+        }
+        return dp[1][m];
     }
 };
