@@ -1,31 +1,36 @@
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        queue<pair<int,pair<int,int>>>q; //stop,node,price;
-        q.push({0,{src,0}});
         vector<int>dist(n,1e9);
         vector<pair<int,int>>adj[n];
-        for(int i=0;i<flights.size();i++){
-                int from=flights[i][0];
-                int to=flights[i][1];
-                int cost=flights[i][2];
-                adj[from].push_back({to,cost});
+        for(auto it:flights){
+            int u=it[0];
+            int v=it[1];
+            int wt=it[2];
+            adj[u].push_back({v,wt});
         }
-             while(!q.empty()){
-                 int stop=q.front().first;
-                 int node=q.front().second.first;
-                 int cost=q.front().second.second;
-                 q.pop();
-                 for(auto it:adj[node]){
-                     int nxt=it.first;
-                     int money=it.second;
-                    if(cost+money<dist[nxt] && stop<=k){
-                        dist[nxt]=cost+money;
-                     q.push({stop+1,{nxt,dist[nxt]}});
-                    }
-                 }
+         queue<pair<int,pair<int,int>>>q;
+         q.push({0,{src,0}}); // dist,node
+        dist[src]=0;
+        int mini=1e9;
+        while(!q.empty()){
+            int len=q.front().first;
+            int from=q.front().second.first;
+            int ct=q.front().second.second;
+                q.pop();
+                if(from==dst){
+                    mini=min(mini,len);
+                }
+            for(auto it:adj[from]){
+                int to=it.first;
+                int new_len=len+it.second;
+                if(new_len<dist[to] && ct<=k){
+                    q.push({new_len,{to,ct+1}});
+                    dist[to]=new_len;
+                }
+            }
         }
-        if(dist[dst]==1e9)return -1;
-        return dist[dst];
+        if(mini!=1e9)return mini;
+        return -1;
     }
 };
