@@ -4,10 +4,26 @@
  */
 var createCounter = function(init) {
     let curr=init;
-    return{
-           increment: () => ++curr,
-        decrement: () => --curr,
-        reset: () =>  curr =init,
+
+    // arrow function
+    
+    // return{
+    //        increment: () => ++curr,
+    //     decrement: () => --curr,
+    //     reset: () =>  curr =init,
+    // }
+    
+    // factory function
+    return {
+        increment(){
+            return ++curr;
+        },
+        decrement(){
+            return --curr;
+        },
+        reset(){
+            return curr=init;
+        },
     }
 };
 
