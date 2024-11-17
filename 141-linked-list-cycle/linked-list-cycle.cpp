@@ -8,25 +8,17 @@
  */
 class Solution {
 public:
-    bool f(ListNode *head,map<ListNode*,int>&m){
-        if(head==NULL)return true;
-      
-        if(m.find(head)!=m.end())return false;
-          m[head]++;
-       if(!f(head->next,m)) return false;
-       return true;
-    }
     bool hasCycle(ListNode *head) {
-    //     map<ListNode*,int>m;
-    //    return  !f(head,m);
+        if(!head)return 0;
+        if(!head->next)return 0;
 
-    // or 
-     ListNode *fast=head,*slow=head;
-     while(fast!=NULL && fast->next!=NULL){
-        slow=slow->next;
-        fast=fast->next->next;
-        if(slow==fast)return true;
-     }
-     return false;
+        ListNode *slow=head,*fast=head;
+        while(fast){
+            slow=slow->next;
+          if(fast->next)fast=fast->next->next;
+          else break;
+            if(slow==fast)return 1;
+        }
+        return 0;
     }
 };
