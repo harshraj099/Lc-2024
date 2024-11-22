@@ -10,32 +10,34 @@
  */
 class Solution {
 public:
-int f(ListNode*head){
-    int ct=0;
-    while(head!=NULL){
-        ct++;
-        head=head->next;
-    }
-    return ct;
-}
     ListNode* rotateRight(ListNode* head, int k) {
-        if(!head || head->next==NULL || k==0)return head;
-        int n=f(head);
-        int len=k%n;
-        if(len==0)return head;
-        ListNode*temp=head;
-        int go=n-len;
-        ListNode* store=NULL;
-        while(temp->next!=NULL){
-            if(go==1){
-                store=temp;
-            }
-            go--;
-            temp=temp->next;
-        }
-        temp->next=head;
-        head=store->next;
-        store->next=NULL;
-        return head;
+        if(!head ||!head->next)return head;
+        if(k==0)return head;
+       ListNode* slow=head,*fast=head,*last;
+       int ct=1;
+       while (fast && fast->next){
+        ct++;
+            if(!fast->next->next)last=fast->next;
+            slow=slow->next;
+            fast=fast->next->next;
+       }
+       int n=0;
+    //    cout<<ct;
+       if(fast){n=2*ct-1;
+       last=fast;}
+       else n=(ct-1)*2;
+    //    cout<<n;
+       k=k%n;
+       if(k==0)return head;
+       ListNode* temp=head;
+       k=n-k;
+       while(--k){
+        temp=temp->next;
+       }
+    ListNode* dummy=temp->next;
+       temp->next=NULL;
+        last->next=head;
+
+        return dummy;
     }
 };
