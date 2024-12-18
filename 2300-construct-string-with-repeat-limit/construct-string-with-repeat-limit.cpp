@@ -17,40 +17,22 @@ public:
         string res = "";
 
         while (!pq.empty()) {
-            auto [topChar, topFreq] = pq.top(); // Get the most frequent character
-            pq.pop();
-
-            char ch = topChar + 'a'; // Convert to character
-
-            // Add the character to the result up to repeatLimit times or its frequency
-            int addCount = min(repeatLimit, topFreq);
-            res.append(addCount, ch);
-            topFreq -= addCount;
-
-            // If the character's frequency is greater than 0, handle subsequent characters
-            if (topFreq > 0) {
-                if (pq.empty()) {
-                    // If there's no other character to interleave, stop
-                    break;
-                }
-
-                // Get the second most frequent character
-                auto [secondChar, secondFreq] = pq.top();
-                pq.pop();
-
-                char ch2 = secondChar + 'a'; // Convert to character
-
-                // Add the second most frequent character to interleave
-                res.push_back(ch2);
-                secondFreq--;
-
-                // Push back remaining characters into the priority queue
-                if (secondFreq > 0) {
-                    pq.push({secondChar, secondFreq});
-                }
-
-                pq.push({topChar, topFreq});
-            }
+           char ch=pq.top().first+'a';
+           int val=pq.top().second;
+           pq.pop();
+           int ct=min(val,repeatLimit);
+           res.append(ct,ch);
+           val-=ct;
+           if(val>0){
+            if(pq.empty())break;
+          char ch2=pq.top().first+'a';
+           int val2=pq.top().second;
+           pq.pop();
+           res.push_back(ch2);
+           val2--;
+           if(val2>0)pq.push({ch2-'a',val2});
+            pq.push({ch-'a',val});
+           }
         }
 
         return res;
