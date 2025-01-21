@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool isHappy(int n) {
-        int t=10;
+        int t=8;
         while(t--){
             if(n==1)return true;
             int sum=0;
