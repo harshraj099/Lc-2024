@@ -21,7 +21,7 @@ public:
     Node* connect(Node* root) {
         if(!root)return NULL;
 
-        vector<Node*>vec[100];
+        vector<Node*>vec[75];
         queue<pair<int,Node*>>q;
         q.push({0,root});
 
