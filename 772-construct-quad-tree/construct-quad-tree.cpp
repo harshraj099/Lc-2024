@@ -55,7 +55,7 @@ public:
     Node * f(int i,int j,int n,vector<vector<int>>& grid){
         if(allsame(i,j,n,grid))return new Node(grid[i][j],1);
 
-        Node* node=new Node(1,0);
+        Node* node=new Node(0,0);
         node->topLeft=f(i,j,n/2,grid);
         node->topRight=f(i,j+n/2,n/2,grid);
         node->bottomLeft=f(i+n/2,j,n/2,grid);
