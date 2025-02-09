@@ -14,7 +14,19 @@ public:
             return  dp[n]=min(take,leave);
         }
     int numSquares(int n) {
-        vector<int>dp(n+1,-1);
-       return f(1,sqrt(n),n,dp);
+    //     vector<int>dp(n+1,-1);
+    //    return f(1,sqrt(n),n,dp);
+
+    //    tabulation
+        vector<int>dp(n+1,1e9);
+            dp[0]=0;
+            for(int i=1;i<=n;i++){
+                  for(int num=1;num<sqrt(n)+1;num++){
+                    
+                  if(i-num*num>=0)dp[i]=min(dp[i],1+dp[i-num*num]);
+                //   cout<<i<<"->"<<dp[i]<<endl;
+            }
+        }
+        return dp[n];
     }
 };
