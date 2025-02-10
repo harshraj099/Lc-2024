@@ -1,35 +1,25 @@
 class Solution {
 public:
-    int f(int ind,int n,vector<int>& prices,vector<vector<int>>&dp,int fl){
-    if(ind>=n)return 0;
-    if(dp[ind][fl]!=-1) return dp[ind][fl];
-    // buy
-    int profit=0;
-    if(!fl)profit=max(-prices[ind]+f(ind+1,n,prices,dp,!fl),f(ind+1,n,prices,dp,fl));
-    // sell
-    if(fl)profit=max(prices[ind]+f(ind+2,n,prices,dp,!fl),f(ind+1,n,prices,dp,fl));
+    int f(int idx,int n,vector<int>& prices,int num, vector<vector<int>>&dp){
+        if(idx>=n)return 0;
+        
+        if(dp[idx][num+1]!=-1)return dp[idx][num+1];
+        // take
+        int take=0;
+       if(num==-1) take=f(idx+1,n,prices,idx,dp);
 
-     return  dp[ind][fl]=profit;
-}
+        // leave
+        int leave=f(idx+1,n,prices,num,dp);
+        
+        // calculate
+        int calculate=0;
+       if(num!=-1 && prices[num]<prices[idx]) calculate=prices[idx]-prices[num]+f(idx+2,n,prices,-1,dp);
+
+        return  dp[idx][num+1]=max(take,max(leave,calculate));
+    }
     int maxProfit(vector<int>& prices) {
-    //     int n=prices.size();
-    //    vector<vector<int>>dp(n,vector<int>(2,-1));
-    //    return f(0,n,prices,dp,0);
-
-       // tabulation
-         int n=prices.size();
-        vector<vector<int>>dp(n+2,vector<int>(2,0));
-        //basecase
-        int profit=0;
-        for(int i=n-1;i>=0;i--){
-            //buy
-            for(int fl=0;fl<=1;fl++){
-    if(fl==0) profit=max(-prices[i]+dp[i+1][!fl],0+dp[i+1][fl]);
-      // sell
-     if(fl) profit=max(prices[i]+dp[i+2][!fl],0+dp[i+1][fl]);
-           dp[i][fl]=profit;
-            }
-        }
-        return dp[0][0];
+      int n=prices.size();
+      vector<vector<int>>dp(n,vector<int>(n+1,-1));
+        return  f(0,n,prices,-1,dp);  
     }
 };
