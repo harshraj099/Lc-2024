@@ -1,62 +1,26 @@
 class Solution {
 public:
-    // int f(int idx,vector<int>& coins, int k,vector<vector<int>>&dp){
-    //     if(idx==0){
-    //         if(k%coins[idx]==0)return dp[idx][k]=k/coins[idx];
-    //         else return 1e9;
-    //     }
-    //     if(dp[idx][k]!=-1)return dp[idx][k];
-    //     int not_take=0+f(idx-1,coins,k,dp);
-    //     int take=INT_MAX;
-    //     if(coins[idx]<=k)take=1+f(idx,coins,k-coins[idx],dp);
+    int f(int idx,int n,vector<int>& coins, int target,vector<vector<int>>&dp)
+    {
+        if(target==0)return 0;
 
-    //     return dp[idx][k]=min(take,not_take);
-    // }
+        if(idx>=n)return 1e8;
 
-    int f(int idx,vector<int>& coins, int amount,vector<vector<int>>&dp){
-        if(idx==0){
-            if(amount%coins[0]==0)return amount/coins[0];
-            return 1e9;
-        }
-        if(dp[idx][amount]!=-1)return dp[idx][amount];
-
+        if(dp[idx][target]!=-1)return dp[idx][target];
         // take
-        int take=1e9;
-        if(coins[idx]<=amount)take=1+f(idx,coins,amount-coins[idx],dp);
+        int take=1e8;
+        // cout<<idx<<endl;
+        if(target>=coins[idx])take=1+f(idx,n,coins,target-coins[idx],dp);
 
-        // not take
-        int not_take=f(idx-1,coins,amount,dp);
+        // leave
+        int leave=f(idx+1,n,coins,target,dp);
 
-        return dp[idx][amount]=min(take,not_take);
+        return  dp[idx][target]=min(take,leave);
     }
-
     int coinChange(vector<int>& coins, int amount) {
-       vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
-       int ans= f(coins.size()-1,coins,amount,dp);
-       if(ans==1e9)return -1;
-       return ans;
-
-       // tabulation 
-    //     vector<vector<int>>dp(coins.size(),vector<int>(amount+1,0));
-    //     for(int k=1;k<=amount;k++)
-    //  { 
-    //         if(k%coins[0]==0) dp[0][k]=k/coins[0];
-    //         else dp[0][k]=1e5;
-    //     }
-        
-    //     for(int i=1;i<coins.size();i++){
-    //         for(int sum=1;sum<=amount;sum++){
-    //               int not_take=0+dp[i-1][sum];
-    //     int take=1e5;
-    //     if(coins[i]<=sum)take=1+dp[i][sum-coins[i]];
-
-    //    dp[i][sum]=min(take,not_take);
-    //         }
-    //     }
-      
-    // //    if(ans==1e9)return -1;
-    //  int ans= dp[coins.size()-1][amount];
-    //  if(ans>=1e5)return -1;
-    //  return ans;
+        int n=coins.size();
+        vector<vector<int>>dp(n,vector<int>(amount+1,-1));
+      if(f(0,n,coins,amount,dp)>=1e8)return -1;
+      return f(0,n,coins,amount,dp);
     }
 };
