@@ -1,17 +1,21 @@
 class Solution {
 public:
-    int f(int n,int temp,int check,vector<int>&dp){
-        if(n==0)return 1;
-        if(dp[temp]!=-1)return dp[temp];
-        int take=0;
-        if((temp-n+1)!=check)take=(temp-n+1)*f(n-1,n-1,check,dp);
+   int f(int prev,int curr,int n,vector<vector<int>>&dp){
+        if(curr>n)return 1;
 
-        int not_take=f(n-1,temp,check,dp);
-        return dp[temp]=max(take,not_take);
+        if(dp[prev][curr]!=-1)return dp[prev][curr];
+        //divide
+        int div=(curr-prev)*f(curr,curr+1,n,dp);
+
+        // not divide
+        int dnd=f(prev,curr+1,n,dp);
+
+        return  dp[prev][curr]= max(div,dnd);
     }
     int integerBreak(int n) {
-        // vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
-        vector<int>dp(n+1,-1);
-        return f(n,n,n,dp);
+        if(n==2)return 1;
+        if(n==3)return 2;
+        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+      return f(0,1,n,dp);
     }
 };
