@@ -5,12 +5,18 @@ public:
         if(i==n)  return 0;
         if(dp[i][fl]!=-1)return dp[i][fl];
         // buy 
-        int profit=0;  //minimun to zero hi hoga logically
-      if(fl==0) profit=max(-prices[i]+f(i+1,prices,n,dp,!fl,fee),0+f(i+1,prices,n,dp,fl,fee));
-      // sell
-     if(fl) profit=max(prices[i]-fee+f(i+1,prices,n,dp,!fl,fee),0+f(i+1,prices,n,dp,fl,fee));
+        int buy=0; 
+        if(!fl)buy=-prices[i]+f(i+1,prices,n,dp,!fl,fee);
+        
+        // sell
+        int sell=0;
+        if(fl)sell=prices[i]-fee+f(i+1,prices,n,dp,!fl,fee);
 
-      return  dp[i][fl]=profit;
+        // leave
+        int leave=f(i+1,prices,n,dp,fl,fee);
+
+      
+      return  dp[i][fl]=max(leave,max(buy,sell));
     }
     int maxProfit(vector<int>& prices, int fee) {
            int n=prices.size();
