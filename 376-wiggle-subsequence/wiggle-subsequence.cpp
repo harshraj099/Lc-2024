@@ -15,7 +15,7 @@ public:
         int leave=f(prev,curr+1,sum,n,nums,dp);
 
         int leaveBoth=0;
-        if(prev==curr)leaveBoth=f(prev+1,curr+1,sum,n,nums,dp);
+        // if(prev==curr)leaveBoth=f(prev+1,curr+1,sum,n,nums,dp);
 
         return dp[prev][curr]=max(leaveBoth,max(take,leave)) ;
     }
