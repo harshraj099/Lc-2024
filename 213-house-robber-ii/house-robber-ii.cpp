@@ -45,9 +45,10 @@ int solve1(int idx,vector<int>& arr,vector<int>&dp){
            vector<int>dp(n,-1);
 	// int  ans1= solve1(n-1,nums,dp);
 	int  ans1= f1(0,nums,dp);
-     vector<int>dpp(n,-1);
+    //  vector<int>dpp(n,-1);
+    dp.assign(n,-1);
     // int  ans2= solve2(n-2,nums,dpp);
-    int  ans2= f2(1,nums,dpp);
+    int  ans2= f2(1,nums,dp);
     return max(ans1,ans2);
 
     }
