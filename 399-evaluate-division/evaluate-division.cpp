@@ -1,64 +1,55 @@
 class Solution {
 public:
-    bool dfs(const string &start, const string &end, unordered_map<string, vector<pair<string, double>>> &graph, 
-             unordered_set<string> &visited, double &result, double currentProduct) {
-        if (visited.count(start)) return false;
-        visited.insert(start);
-
-        if (start == end) {
-            result = currentProduct;
-            return true;
-        }
-
-        for (const auto &neighbor : graph[start]) {
-            if (dfs(neighbor.first, end, graph, visited, result, currentProduct * neighbor.second)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
-        unordered_map<string, vector<pair<string, double>>> graph;
+        vector<double>ans;
+       unordered_map<string, vector<pair<string, double>>> adj;
 
-        // Build the graph
-        for (int i = 0; i < equations.size(); ++i) {
-            const string &var1 = equations[i][0];
-            const string &var2 = equations[i][1];
-            double value = values[i];
-
-            graph[var1].emplace_back(var2, value);
-            graph[var2].emplace_back(var1, 1.0 / value);
+        
+        int i=0;
+        for(auto it:equations){
+            string n=it[0];
+            string d=it[1];
+             adj[n].push_back({d, values[i]});
+            adj[d].push_back({n, 1.0 / values[i]});
+            i++;
         }
 
-        vector<double> results;
+        for(auto it:queries){
+            string num=it[0];
+            string den=it[1];
 
-        // Process each query
-        for (const auto &query : queries) {
-            const string &var1 = query[0];
-            const string &var2 = query[1];
-
-            if (graph.find(var1) == graph.end() || graph.find(var2) == graph.end()) {
-                results.push_back(-1.0);  // Variable not in graph
+            if(adj.find(num)==adj.end()){
+                ans.push_back(-1);
                 continue;
             }
-
-            if (var1 == var2) {
-                results.push_back(1.0);  // Same variable
-                continue;
+            int fl=0;
+            queue<pair<string,double>>q;
+            unordered_set<string>s;
+            q.push({num,1});
+            s.insert(num);
+            while(!q.empty()){
+                string node=q.front().first;
+                double wt=q.front().second;
+                q.pop();
+                if(node==den){
+                    ans.push_back(wt);
+                   fl=1;
+                    break;
             }
 
-            unordered_set<string> visited;
-            double result = -1.0;
-
-            if (dfs(var1, var2, graph, visited, result, 1.0)) {
-                results.push_back(result);
-            } else {
-                results.push_back(-1.0);  // No path found
+                for(auto neigh:adj[node]){
+                    if(s.find(neigh.first)==s.end()){
+                        s.insert(neigh.first);
+                        q.push({neigh.first,neigh.second*wt});
+                    }
+                }
+            }
+            if(!fl){
+                ans.push_back(-1);
             }
         }
 
-        return results;
+        return ans;
+       
     }
 };
