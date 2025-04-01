@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void dfs(int node,  vector<vector<int>>&adj, vector<int>&vis){
+    void dfs(int node, vector<int>adj[], vector<int>&vis){
         for(auto ng:adj[node]){
             if(!vis[ng]){
                 vis[ng]=1;
@@ -11,8 +11,7 @@ public:
     int findCircleNum(vector<vector<int>>& isConnected) {
        int n=isConnected.size();
        vector<int>vis(n+1,0);
-        //  vector<int>adj[n+1];
-        vector<vector<int>> adj(n+1);
+         vector<int>adj[n+1];
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 if(isConnected[i][j]==1){
