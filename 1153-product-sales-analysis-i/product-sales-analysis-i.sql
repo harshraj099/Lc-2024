@@ -1,3 +1,5 @@
 # Write your MySQL query statement below
-select product_name, year , price from Sales inner join 
-Product on Sales.product_id=Product.product_id;
+-- right join -> means right table first
+-- just main the order of table
+select product_name, year , price from Product right join 
+Sales on Sales.product_id=Product.product_id;
