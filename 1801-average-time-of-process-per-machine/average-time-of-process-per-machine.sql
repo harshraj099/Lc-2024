@@ -1,5 +1,6 @@
 # Write your MySQL query statement below
-select m1.machine_id,round(avg(m2.timestamp-m1.timestamp),3) as processing_time
-from Activity as m1 join Activity as m2 on 
-m1.machine_id=m2.machine_id  where m1.activity_type='start'
- and m2.activity_type='end'group by m1.machine_id;
+select a1.machine_id as machine_id , round(avg(a2.timestamp - a1.timestamp ),3)
+ as processing_time from Activity as a1 left join Activity as a2
+ on a1.machine_id   = a2.machine_id  where a1.activity_type = "start"
+ and a2.activity_type = "end" group by machine_id;
+-- ROUND(..., 3) ensures result is to 3 decimal places.
