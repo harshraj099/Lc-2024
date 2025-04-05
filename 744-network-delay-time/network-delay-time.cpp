@@ -6,31 +6,23 @@ public:
        for(auto it:times){
         adj[it[0]].push_back({it[1],it[2]});
        }
-       
-    //    vector<int>vis(n+1,0);
-    //    vis[0]=1;
        vector<int>dist(n+1,1e9);
 
-        int maxi=0;
-        queue<pair<int,int>>q;
-
-        q.push({k,0});  // node , time 
-        // vis[k]=1;
+        // int maxi=0;
+        // queue<pair<int,int>>q;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> q;
+        q.push({0,k});  // node , time 
         dist[k]=0;
         dist[0]=0;
-        // int ct=0;
         while (!q.empty()){
-            int node =q.front().first;
-            int time=q.front().second;
-            maxi=max(maxi,time);
-            // ct++;
+            int time =q.top().first;
+            int node=q.top().second;
+            // maxi=max(maxi,time);
             q.pop();
-            // cout<<maxi;
             for(auto it:adj[node]){
-                // vis[it.first]=1;
                 if(time+it.second<dist[it.first]){
                     dist[it.first]=time+it.second;
-                    q.push({it.first,dist[it.first]});
+                    q.push({dist[it.first],it.first});
                 }
             }
         }
