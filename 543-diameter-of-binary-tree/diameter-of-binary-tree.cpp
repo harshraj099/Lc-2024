@@ -11,17 +11,22 @@
  */
 class Solution {
 public:
-int k=0;
-int diameter1(TreeNode* root)
-        {if(root==NULL)return 0;
-        int left=diameter1(root->left);
-        int right=diameter1(root->right);
-        k=max(k,(left+right));
-        return 1+max(left,right);}
-      
+    int maxi=0;
+    int f(TreeNode* root){
+        if(!root)return 0;
+
+        int left=0,right=0;
+
+        if(root->left)left=1+f(root->left);
+
+        if(root->right)right=1+f(root->right);
+
+        maxi=max(maxi,left+right);
+        return max(left,right);
+    }
     int diameterOfBinaryTree(TreeNode* root) {
-      
-          diameter1(root);
-        return k;
+        if(!root)return 0;
+         f(root);
+         return maxi;
     }
 };
