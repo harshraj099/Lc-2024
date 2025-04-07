@@ -11,36 +11,19 @@
  */
 class Solution {
 public:
-void solve(TreeNode* p,vector<int>&vp){
-    if(p==NULL){ vp.push_back(-1e5);
-        return;}
-    vp.push_back(p->val);
-    solve(p->left,vp);
-    solve(p->right,vp);
-}
-void solve2(TreeNode* q,vector<int>&vq){
-    if(q==NULL){ vq.push_back(-1e5);
-        return;}
-    vq.push_back(q->val);
-    solve2(q->left,vq);
-    solve2(q->right,vq);
-}
+    bool f(TreeNode* p, TreeNode* q){
+        if(!p && q || p && !q)return false;
+        if(!p && !q)return true;
+
+        if(p->val!=q->val)return false;
+        // if(!f(p->left,q->left))return false;
+        // if(!f(p->right,q->right))return false;
+        bool left=f(p->left,q->left);
+        bool right=f(p->right,q->right);
+
+        return left && right;
+    } 
     bool isSameTree(TreeNode* p, TreeNode* q) {
-    //     vector<int>vp,vq;
-    //    solve(p,vp); 
-    //    solve2(q,vq); 
-    //    for(auto ele:vp)cout<<ele<<" ";
-    //    cout<<endl;
-    //    for(auto ele:vq)cout<<ele<<" ";
-    //     if(vp!=vq)return false;
-    //     return true;
-    if(!p && !q)return true;
-    if((!p && q) || (p && !q))return false;
-
-    if(p->val!=q->val)return false;
-   if(!isSameTree(p->left,q->left))return false;
-    if(!isSameTree(p->right,q->right))return false;
-
-    return true;
+        return f(p,q);
     }
 };
