@@ -20,8 +20,9 @@ public:
         if(!f(p->right,q->right))return false;
         // bool left=f(p->left,q->left);
         // bool right=f(p->right,q->right);
+        // return left && right;
 
-        return left && right;
+        return true;
     } 
     bool isSameTree(TreeNode* p, TreeNode* q) {
         return f(p,q);
