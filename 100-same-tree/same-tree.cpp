@@ -16,10 +16,10 @@ public:
         if(!p && !q)return true;
 
         if(p->val!=q->val)return false;
-        // if(!f(p->left,q->left))return false;
-        // if(!f(p->right,q->right))return false;
-        bool left=f(p->left,q->left);
-        bool right=f(p->right,q->right);
+        if(!f(p->left,q->left))return false;
+        if(!f(p->right,q->right))return false;
+        // bool left=f(p->left,q->left);
+        // bool right=f(p->right,q->right);
 
         return left && right;
     } 
