@@ -11,40 +11,38 @@ class Solution {
 public:
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         if(!root)return {};
-        // 1st parnet store kero each node ka
-      map<TreeNode*,TreeNode*>par;
-      queue<pair<TreeNode*,TreeNode*>>q;
-      q.push({root,root});
-      int n=0;
-    while(!q.empty()){
-        n++;
-        TreeNode* node=q.front().first;
-        TreeNode* parent=q.front().second;
-        q.pop();
-        par[node]=parent;
-        if(node->left){
-            q.push({node->left,node});
+        map<TreeNode*,TreeNode*>parent;
+        // root,parent
+        queue<pair<TreeNode*,TreeNode*>>q;
+        q.push({root,root}); 
+        int n=0;    
+        while(!q.empty()){
+            TreeNode* node=q.front().first;
+            TreeNode* par=q.front().second;
+            n++;
+            q.pop();
+            parent[node]=par;
+            if(node->left)q.push({node->left,node});
+            if(node->right)q.push({node->right,node});
         }
-         if(node->right){
-            q.push({node->right,node});
+         vector<int>ans;
+         vector<int>vis(n+1,0);
+        //  parent use ker k revisit nahi ho jaye node
+        queue<pair<TreeNode*,int>>que;
+        // node,dist
+        que.push({target,0});
+        while(!que.empty()){
+             TreeNode* node=que.front().first;
+            int dist=que.front().second;
+            que.pop();
+            vis[node->val]=1; 
+            if(dist==k)ans.push_back(node->val);
+
+            if(node->left && !vis[node->left->val])que.push({node->left,dist+1});
+            if(node->right && !vis[node->right->val])que.push({node->right,dist+1});
+            if(parent[node]!=node && !vis[parent[node]->val])que.push({parent[node],dist+1});
         }
-    }
-    // ab traversal kerke ans store kero
-    vector<int>ans;
-    vector<int>vis(n+1,0);
-    queue<pair<TreeNode*,int>>pq; // node,dist
-    pq.push({target,0});
-    vis[target->val]=1;
-    while(!pq.empty()){
-        TreeNode* node=pq.front().first;
-        int dist=pq.front().second;
-        vis[node->val]=1;
-        pq.pop();
-        if(dist==k)ans.push_back(node->val);
-        if(node->left && !vis[node->left->val])pq.push({node->left,dist+1});
-        if(node->right && !vis[node->right->val])pq.push({node->right,dist+1});
-        if(!vis[par[node]->val])pq.push({par[node],dist+1});
-    }
-    return ans;
+
+        return ans;
     }
 };
