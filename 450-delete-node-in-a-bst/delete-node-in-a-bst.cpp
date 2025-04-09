@@ -11,37 +11,65 @@
  */
 class Solution {
 public:
-        TreeNode* getright(TreeNode* root){
-            if(!root)return NULL;
-            if(!root->right )return root;
-           return getright(root->right);
-        }
-    TreeNode* del(TreeNode* root, int key,TreeNode* prev){
-        if(!root)return nullptr;
+    TreeNode* f(TreeNode* root, int key,TreeNode* prev,int left,int right){
+        if(!root)return NULL;
 
         if(root->val==key){
-            if(!root->right && !root->left){
-            return NULL;
+            if(right){
+                if(!root->left){
+                  return  prev->right=root->right;
+                }
+                if(!root->right){
+                  return  prev->right=root->left;
+                }
+                prev->right=root->left;
+                 TreeNode* curr=root->left;
+            while(curr->right){
+                curr=curr->right;
             }
-           TreeNode* right=getright(root->left); // root->right ka leftmost nikalo aur root->left se connect kerdo
-            if(!right){
-                return root->right;
+            curr->right=root->right;
             }
             else {
-                 right->right=root->right;
-                return root->left;
+                 if(!root->left){
+                  return  prev->left=root->right;
+                }
+                if(!root->right){
+                  return  prev->left=root->left;
+                }
+                prev->left=root->left;
+                 TreeNode* curr=root->left;
+            while(curr->right){
+                curr=curr->right;
             }
+            curr->right=root->right;
+            }
+
+            return prev;
         }
-       root->left=del(root->left,key,root);
-       root->right=del(root->right,key,root);
-       return root;
+        if(root->val<key){
+            f(root->right,key,root,0,1);
+        }
+        else {
+            f(root->left,key,root,1,0);
+        }
+
+        return root;
     }
     TreeNode* deleteNode(TreeNode* root, int key) {
-         if(!root){
-            return root;
-        }
-        
-     return  del(root,key,NULL);
+        if(!root)return NULL;
+        if(root->val==key){
+            if(!root->right)return root->left;
+            if(!root->left)return root->right;
 
+            // TreeNode* temp=root->right;
+            TreeNode* curr=root->left;
+            while(curr->right){
+                curr=curr->right;
+            }
+            curr->right=root->right;
+            return root->left;
+        }
+
+       return f(root,key,root,0,0);
     }
 };
