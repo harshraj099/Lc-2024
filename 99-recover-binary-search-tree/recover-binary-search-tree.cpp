@@ -11,25 +11,32 @@
  */
 class Solution {
 public:
-    void solve(TreeNode* root,TreeNode* &a,TreeNode* &b,TreeNode* &mid,TreeNode* &prev){
-        if(!root)return;
+    void f(TreeNode* root,TreeNode* &prev,TreeNode* &mid,TreeNode* &num1,TreeNode* &num2){
+        if(!root)return ;
         // inorder
-        solve(root->left,a,b,mid,prev);
-        if(prev && root->val<prev->val){
-            if(!a){
-                a=prev;
-                mid=root;
+            f(root->left,prev,mid,num1,num2);
+            
+            if(prev && root->val<prev->val){
+                if(!num1){
+                    num1=prev;
+                    mid=root;
+                }
+                else num2=root;
             }
-            else b=root;
-        }
-         prev=root;
-        solve(root->right,a,b,mid,prev);
+
+                prev=root;
+            f(root->right,prev,mid,num1,num2);
     }
     void recoverTree(TreeNode* root) {
-      TreeNode* a=NULL,*b=NULL,*mid=NULL;  
-      TreeNode* prev=NULL;
-      solve(root,a,b,mid,prev);
-      if(a && b)swap(a->val,b->val);  // 2 points me inorder traversal different hai
-      else if(a && mid )swap(a->val,mid->val);   // 1 hi point me inorder different hai
+        TreeNode* prev=NULL;
+        TreeNode* mid=NULL;
+        TreeNode* num1=NULL;
+        TreeNode* num2=NULL;
+
+         f(root,prev,mid,num1,num2);
+        
+        if(!num2)swap(num1->val,mid->val);  
+        else swap(num1->val,num2->val); 
+         
     }
 };
