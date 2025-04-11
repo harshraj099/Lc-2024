@@ -1,89 +1,61 @@
 class disjoint{
-        public:
-        vector<int>rank,parent,size;
-        // constructor
-        disjoint(int n)
-        {
-            rank.resize(n+1,0);
-            parent.resize(n+1);
-            size.resize(n+1,1);
-            for(int i=0;i<=n;i++)
-            {
-                parent[i]=i;
-            }
+    public:
+    vector<int>par,size;
+    disjoint(int n){
+        par.resize(n);
+        size.resize(n,1);
+
+        for(int i=0;i<n;i++){
+            par[i]=i;
         }
-        
-        // find ultimate parent
-       int  find_ulp(int x){
-            if(parent[x]==x)return parent[x];
-            return parent[x]=find_ulp(parent[x]);
-        }
-        
-        // union by rank
-        
-       void union_by_rank(int x,int y)
-       {
-            int u=find_ulp(x);
-            int v=find_ulp(y);
-            
-            if(u==v)return;
-            
-            if(rank[u]>rank[v])
-            {
-                parent[v]=u;
-            }
-           else if(rank[u]<rank[v])
-               {
-                    parent[u]=v;
-                }
-            else {
-              parent[u]=v;
-              rank[v]++;
-            }
-        }
-        
-        void union_by_size(int x,int y){
-            int u=find_ulp(x);
-            int v=find_ulp(y);
-            
-            if(u==v)return;
-            
-            if(size[u]>size[v]){
-                parent[v]=u;
-                size[u]+=size[v];
-            }
-            else {
-            parent[u]=v;
+    }
+
+    int find(int x){
+        if(par[x]==x)return x;
+        return find(par[x]);
+    }
+    
+    // join by size
+    void join(int u,int v){
+        if(u<v){
+            par[u]=v;
             size[v]+=size[u];
-            } 
         }
-    };
+        else if(u>v){
+            par[v]=u;
+            size[u]+=size[v];
+        }
+        else {
+            par[u]=v;
+            size[v]+=size[u];
+        }
+    }
+};
 
 class Solution {
 public:
     int makeConnected(int n, vector<vector<int>>& connections) {
-      int ct=0;        
-        int connect=0;
-        disjoint ds(n);
-        for(int i=0;i<connections.size();i++){
-            int u=connections[i][0];
-            int v=connections[i][1];
-            
-            int par_u=ds.find_ulp(u);
-            int par_v=ds.find_ulp(v);
-            
-            if(par_u!=par_v){
-                ds.union_by_size(u,v);
+        vector<int>vis(n,0);
+        disjoint dj(n);
+        int left=0;
+        for(auto it:connections){
+            int u=it[0];
+            int v=it[1];
+            int u_par=dj.find(u);
+            int v_par=dj.find(v);
+
+            if(u_par==v_par)left++;
+            else {
+                vis[u]=1;
+                vis[v]=1;
+                dj.join(u_par,v_par);
             }
-            else ct++;
         }
+        int ct=-1; // ek to hoga hi jo pure graph ko conect kerega
         for(int i=0;i<n;i++){
-            int x=ds.find_ulp(i);
-             if(x==i){
-                connect++;
-            }
+           if(dj.find(i)==i)ct++;
         }
-        if(ct>=connect-1)return connect-1;
-        return -1;
+        if(ct>left)return -1;
+        return ct;
     }
 };
