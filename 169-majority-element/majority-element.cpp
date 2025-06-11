@@ -1,38 +1,23 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int n=nums.size();
-        // map<int,int>m;
-        // for(int i=0;i<n;i++){
-        //     m[nums[i]]++;
-        // }
-        // int ans;
-        // for(auto x:m){
-        //     if(x.second>n/2)ans=x.first;
-        // }
-        // return ans;
-
-        // moore voting algorithm
-
-        int cnt=0;
-        int ele;
-        for(int i=0;i<n;i++){
-            if(cnt==0){
-                cnt=1;
-                ele=nums[i];
+        int var=nums[0];
+        int ct=1;
+        for(int i=1;i<nums.size();i++){
+            if(nums[i]==var){
+                ct++;
             }
-            else if(ele==nums[i])cnt++;
-            else cnt--;
+            else {
+                if(ct>0){
+                    ct--;
+                }
+                else {
+                    var=nums[i];
+                    ct=1;
+                }
+            }
         }
 
-        // check if more than n/2
-        // int ct=0;
-        // for(auto it:nums){
-        //     if(it==ele)ct++;
-        // }
-        // if(ct>=n/2)return ele;
-        // else return -1;
-
-        return ele;
+        return var;
     }
 };
