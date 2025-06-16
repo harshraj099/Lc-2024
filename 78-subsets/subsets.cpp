@@ -1,41 +1,25 @@
 class Solution {
 public:
-
-   void getsub(int idx,vector<vector<int>>&v,vector<int>&nums,int n,vector<int>&vec){
-        // vector<int>vec;
-        if(idx==n){
-                v.push_back(vec);
-            return ;
+    void f(int i,vector<int>&v,vector<int>&nums,vector<vector<int>>&res,int n){
+        if(i==n){
+            res.push_back(v);
+            return;
         }
-        //not take
-        getsub(idx+1,v,nums,n,vec);
 
-        //take
-        vec.push_back(nums[idx]);
-         getsub(idx+1,v,nums,n,vec);
-         vec.pop_back();
+        // take
+        v.push_back(nums[i]);
+        f(i+1,v,nums,res,n);
+        v.pop_back();
+
+        // leave
+        f(i+1,v,nums,res,n);
     }
     vector<vector<int>> subsets(vector<int>& nums) {
-    //     vector<vector<int>>v;
-    //     vector<int>vec;
-    //     getsub(0,v,nums,nums.size(),vec);
-    //   return v;
+        vector<vector<int>>res;
+        int n=nums.size();
+        vector<int>v;
+        f(0,v,nums,res,n);
 
-
-        // or
-        // bit manipulation
-    int n=nums.size();
-      int subsets=1<<n;
-
-    vector<vector<int>>v;
-        for(int i=0;i<subsets;i++){
-            vector<int>vec;
-            for(int j=0;j<n;j++){
-                if((i&(1<<j))!=0)vec.push_back(nums[j]);
-            }
-            v.push_back(vec);
-        }
-
-        return v;
+        return res;
     }
 };
