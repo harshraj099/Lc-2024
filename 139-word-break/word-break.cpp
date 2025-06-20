@@ -1,23 +1,23 @@
 class Solution {
 public:
-    bool present(string &st,vector<string>& wordDict){
-        for(auto it:wordDict)if(it==st)return true;
-        
-        return false;
-    }
-    bool f(int idx,string &s,vector<string>& wordDict,vector<int>&dp){
-        if(idx>=s.size())return true;
-        if(dp[idx]!=-1)return dp[idx];
-        string st="";
-        bool check=false;
-        for(int i=idx;i<s.size();i++){
-            st+=s[i];
-            if(present(st,wordDict) && f(i+1,s,wordDict,dp))return dp[idx]=check=true;
+     bool f(int i,string s,int n, vector<string>& wordDict,vector<int>&dp){
+        if(i==n){
+            return true;
         }
-        return dp[idx]=check;
+        if(dp[i]!=-1)return dp[i];
+        for(int idx=i;idx<n;idx++){
+            // if(i!=idx && s[i]==s[idx])continue;
+            string st = s.substr(i, idx - i + 1);
+            if(distance(wordDict.begin(),find(wordDict.begin(),wordDict.end(),st))<wordDict.size()){
+            if(f(idx+1,s,n,wordDict,dp))return dp[idx]=true;
+            }
+        } 
+
+        return dp[i]= false; 
     }
     bool wordBreak(string s, vector<string>& wordDict) {
-        vector<int>dp(s.size(),-1);
-         return f(0,s,wordDict,dp);  
+         int n=s.size();
+         vector<int>dp(n,-1);
+       return f(0,s,n,wordDict,dp); 
     }
 };
