@@ -35,11 +35,11 @@ public:
     }
     
     void follow(int followerId, int followeeId) {
-      if(followerId!=followeeId)  followers[followerId].insert(followeeId);
+       followers[followerId].insert(followeeId);
     }
     
     void unfollow(int followerId, int followeeId) {
-        if(followerId!=followeeId)   followers[followerId].erase(followeeId);
+          followers[followerId].erase(followeeId);
     }
 };
 
