@@ -14,7 +14,7 @@ public:
         }
         stack<int>st2;
         for(int i=n-1;i>=0;i--){
-             while(!st2.empty() && arr[st2.top()]>=arr[i]){
+             while(!st2.empty() && arr[st2.top()]>=arr[i]){  //one one side consider if repeated
                 st2.pop();
             }
           right[i]=st2.empty()?n:st2.top();
