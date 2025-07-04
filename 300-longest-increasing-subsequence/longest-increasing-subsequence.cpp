@@ -1,24 +1,23 @@
 class Solution {
 public:
-    int f(int idx,vector<int>& nums,int n,int prev,vector<vector<int>>&dp,int mini){
-        if(idx>=n)return 0;
+    int  f(int i,int n,vector<int>& nums,int prev,vector<vector<int>>&dp){
+        if(i==n){
+            return 0;
+        }
 
-        if(prev!=-1e5 && dp[idx][prev-mini]!=-1)return dp[idx][prev-mini];
-        // take
+        if(dp[i][prev+1]!=-1)return dp[i][prev+1];
+        // take 
         int take=0;
-        if(nums[idx]>prev)take=1+f(idx+1,nums,n,nums[idx],dp,mini);
+        if(prev==-1 || nums[i]>nums[prev])take=1+f(i+1,n,nums,i,dp);
 
         // leave
-        int leave=f(idx+1,nums,n,prev,dp,mini);
+        int leave=f(i+1,n,nums,prev,dp);
 
-        if(prev==-1e5)return max(take,leave);
-      else  return  dp[idx][prev-mini]=max(take,leave);
+        return dp[i][prev+1] =max(take,leave);
     }
     int lengthOfLIS(vector<int>& nums) {
-        int n=nums.size();
-        int maxi=*max_element(nums.begin(),nums.end());
-        int mini=*min_element(nums.begin(),nums.end());
-        vector<vector<int>>dp(n,vector<int>(maxi-mini+1,-1));
-        return f(0,nums,n,-1e5,dp,mini);
+      int n=nums.size();
+      vector<vector<int>>dp(n,vector<int>(n+1,-1));
+      return f(0,n,nums,-1,dp);  
     }
 };
