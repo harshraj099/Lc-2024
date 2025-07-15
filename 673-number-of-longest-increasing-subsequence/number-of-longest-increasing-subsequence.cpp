@@ -1,25 +1,24 @@
 class Solution {
 public:
     int findNumberOfLIS(vector<int>& nums) {
-             int n=nums.size();
-             int maxi=0;
-             int ct=0;
-        vector<int>dp(n,1),hash(n,1);
+        
+        int n=nums.size();
+        vector<int>dp(n,1);
+        int maxi=0;
+        vector<int>freq(n,1);
+        freq[0]=1;
+        int ct=0;
         for(int i=0;i<n;i++){
             for(int prev=0;prev<i;prev++){
                 if(nums[i]>nums[prev] && dp[prev]+1>dp[i]){
-                  dp[i]=1+dp[prev];
-                        hash[i]=hash[prev];
-                    }
-                  else if(nums[i]>nums[prev] && dp[prev]+1==dp[i]) hash[i]+=hash[prev];
+                    dp[i]=dp[prev]+1;
+                    freq[i]=freq[prev];
                 }
-             maxi=max(maxi,dp[i]);  
+                else if(nums[i]>nums[prev] && dp[prev]+1==dp[i])freq[i]+=freq[prev];
+            }
+            maxi=max(dp[i],maxi);
         }
-
-        for(int i=0;i<n;i++){
-            if(dp[i]==maxi)ct+=hash[i];
-        }
-        // if(ct==0)return n;
+        for(int i=0;i<n;i++) if(maxi==dp[i])ct+=freq[i];
         return ct;
     }
 };
