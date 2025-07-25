@@ -1,24 +1,19 @@
 class MinStack {
 public:
-    stack<pair<int,int>>st;
-    MinStack() {
-        
-    }
-    
+stack<pair<int,int>>st; // num, min
+// it just wants me to get min , so just min in a pair
+    MinStack() { }
     void push(int val) {
-        int mn;
-        if(st.empty()){
-            mn=val;
+        int mini;
+        if(st.empty())mini=val;
+        else {
+            mini=min(st.top().second,val);
         }
-        else{
-            mn=min(val,st.top().second);
-        }
-      st.push({val,mn});
+        st.push({val,mini});
     }
     
     void pop() {
         st.pop();
-      
     }
     
     int top() {
@@ -26,7 +21,7 @@ public:
     }
     
     int getMin() {
-       return st.top().second;
+        return st.top().second;
     }
 };
 
