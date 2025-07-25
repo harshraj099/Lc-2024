@@ -37,7 +37,7 @@ public:
         tm2->prev=tm1;
     }
     int get(int key) {
-        if(m.count(key)){
+        if(m.find(key)!=m.end()){
             dll* temp=m[key];
             del(temp);
             add(temp);
@@ -47,7 +47,8 @@ public:
     }
     
     void put(int key, int value) {
-        if(m.count(key)){
+        dll * node=new dll(key,value);
+        if(m.find(key)!=m.end()){
             dll* temp=m[key];
             del(temp); 
             m.erase(temp->k);
@@ -57,8 +58,7 @@ public:
             m.erase(temp->k);
             del(temp);
         }
-        dll * node=new dll(key,value);
-        m[key]=node;
+         m[key]=node;
         add(node);
     }
 };
