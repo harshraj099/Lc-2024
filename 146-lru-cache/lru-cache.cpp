@@ -1,82 +1,65 @@
-
 class LRUCache {
 public:
-class node{
-    public:
-    int val;
-    int key;
-    node* next;
-    node* prev;
+    class dll{
+        public:
+        int k,val;
+        dll* next;
+        dll* prev;
 
-    node(int k,int v){
-        val=v;
-        key=k;
-        next=NULL;
-        prev=NULL;
-    }
-};
-node* head=new node(-1,-1),*tail=new node(-1,-1);
-    unordered_map<int,node*>m;
-    int cap;
+        dll(int key,int value){
+            k=key;
+            val=value;
+            next=NULL;
+            prev=NULL;
+        }
+    };
+
+    map<int,dll*>m;
+    dll* front,*rear;
+    int size;
     LRUCache(int capacity) {
-        cap=capacity;
-        head->next=tail;
-        tail->prev=head;
+        size=capacity;
+        front = new dll(-1, -1); 
+        rear = new dll(-1, -1);  
+        front->next = rear;
+        rear->prev = front;
     }
-    void deletenode(node* nd){
-        node* temp1=nd->prev;
-        node* temp2=nd->next;
-        temp1->next=temp2;
-        temp2->prev=temp1;
+    void add(dll* node){
+        dll* temp=rear->prev;
+        node->next=rear;
+        temp->next=node;
+        node->prev=temp;
+        rear->prev=node;
     }
-     void addnode(node* nd) {
-        // Add new node right after the head
-        node* temp = head->next;
-        nd->next = temp;
-        nd->prev = head;
-        head->next = nd;
-        temp->prev = nd;
+    void del(dll* node){
+        dll* tm1=node->prev,*tm2=node->next;
+        tm1->next=tm2;
+        tm2->prev=tm1;
     }
     int get(int key) {
-        if(m.find(key)!=m.end()){
-            node* nd=m[key];
-            int res=nd->val;
-            m.erase(key);
-            deletenode(nd);
-            addnode(nd);     
-        //  node* temp = head->next;
-        // nd->next = temp;
-        // nd->prev = head;
-        // head->next = nd;
-        // temp->prev = nd;
-            m[key]=head->next;
-
-            return res;
+        if(m.count(key)){
+            dll* temp=m[key];
+            del(temp);
+            add(temp);
+            return m[key]->val;  
         }
-
         return -1;
     }
     
     void put(int key, int value) {
-      if(m.find(key)!=m.end()){
-        node* temp=m[key];
-        m.erase(key);
-        deletenode(temp);
-      }  
-      if(m.size()==cap){
-        node* tempy=tail->prev;
-        m.erase(tempy->key);
-        deletenode(tempy);
-      }
-    node * newnode=new node(key,value);
-    addnode(newnode);     
-        //  node* fakehead=head;
-        //     head->next=newnode;
-        //     newnode->prev=head;
-        //     newnode->next=fakehead->next;
-        //     fakehead->next->prev=newnode;
-
-            m[key]=head->next;
+        if(m.count(key)){
+            dll* temp=m[key];
+            del(temp); 
+            m.erase(temp->k);
+        }
+        if(size==m.size()){
+            dll* temp=front->next;
+            m.erase(temp->k);
+            del(temp);
+        }
+        dll * node=new dll(key,value);
+        m[key]=node;
+        add(node);
     }
 };
 
