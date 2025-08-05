@@ -1,20 +1,24 @@
 class Solution {
 public:
     vector<int> nextGreaterElements(vector<int>& nums) {
-        // it is circular or we can consider it as 2*n size nums
-        //or traverse nums twice
-        int n=nums.size();
+         map<int,int>m;
         stack<int>st;
-        vector<int>ans(n,-1); 
-        for(int i=2*n-1;i>=0;i--){
-           while(!st.empty() && st.top()<=nums[i%n])st.pop();
-            if(i<n){
-        //    while(!st.empty() && st.top()<=nums[i%n])st.pop();
-                if(!st.empty())ans[i%n]=st.top();
+        for(int i=0;i<2*nums.size();i++){
+            int j=i%nums.size();
+            while(!st.empty() && nums[st.top()]<nums[j]){
+              if(m.find(st.top())==m.end()) m[st.top()]=nums[j];
+                st.pop();
             }
-
-            st.push(nums[i%n]);
+            st.push(j);
         }
-        return ans;
+        while(!st.empty()){
+         if(m.find(st.top())==m.end())   m[st.top()]=-1;
+            st.pop();
+        }
+
+        for(int i=0;i<nums.size();i++){
+            nums[i]=m[i];
+        }
+        return nums;
     }
 };
