@@ -9,18 +9,18 @@
  */
 class Solution {
 public:
-    TreeNode* f(TreeNode* root, TreeNode* p, TreeNode*q){
+    TreeNode* f(TreeNode* root, TreeNode* p, TreeNode* q){
         if(!root || root==p || root==q)return root;
         
-        TreeNode* left=f(root->left,p,q);
-        TreeNode* right=f(root->right,p,q);
+        auto lt=f(root->left,p,q);
+        auto rt=f(root->right,p,q);
+        
+        if(!rt)return lt;
+        if(!lt)return rt;
 
-       if(!left)return right;
-       if(!right)return left;
-
-       return root;
+        return root;
     }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-      return f(root,p,q);
+       return f(root,p,q);
     }
 };
