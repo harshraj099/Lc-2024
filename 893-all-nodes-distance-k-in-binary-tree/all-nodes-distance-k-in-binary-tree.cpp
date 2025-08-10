@@ -9,40 +9,33 @@
  */
 class Solution {
 public:
+    bool f(TreeNode* root, TreeNode* target, map<TreeNode*,TreeNode*>&m,TreeNode* prev){
+        if(!root)return 0;
+        m[root]=prev;
+        if(root==target)return 1;
+        if(f(root->left,target,m,root))return 1;
+        if(f(root->right,target,m,root))return 1;
+        return 0;
+    }
+    void solve(TreeNode* root, int k,map<TreeNode*,TreeNode*>&m,vector<int>&ans,TreeNode* prev){
+        if(!root)return;
+        if(k==0){
+            ans.push_back(root->val);
+            return;
+        }
+
+       if(root->left!=prev) solve(root->left,k-1,m,ans,root);
+       if(root->right!=prev) solve(root->right,k-1,m,ans,root);
+        if(m.find(root)!=m.end() && m[root]!=NULL  && m[root]!=prev)solve(m[root],k-1,m,ans,root);
+    }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        if(!root)return {};
-        map<TreeNode*,TreeNode*>parent;
-        // root,parent
-        queue<pair<TreeNode*,TreeNode*>>q;
-        q.push({root,root}); 
-        int n=0;    
-        while(!q.empty()){
-            TreeNode* node=q.front().first;
-            TreeNode* par=q.front().second;
-            n++;
-            q.pop();
-            parent[node]=par;
-            if(node->left)q.push({node->left,node});
-            if(node->right)q.push({node->right,node});
-        }
-         vector<int>ans;
-         vector<int>vis(n+1,0);
-        //  parent use ker k revisit nahi ho jaye node
-        queue<pair<TreeNode*,int>>que;
-        // node,dist
-        que.push({target,0});
-        while(!que.empty()){
-             TreeNode* node=que.front().first;
-            int dist=que.front().second;
-            que.pop();
-            vis[node->val]=1; 
-            if(dist==k)ans.push_back(node->val);
-
-            if(node->left && !vis[node->left->val])que.push({node->left,dist+1});
-            if(node->right && !vis[node->right->val])que.push({node->right,dist+1});
-            if(parent[node]!=node && !vis[parent[node]->val])que.push({parent[node],dist+1});
-        }
-
+        map<TreeNode*,TreeNode*>m;
+       TreeNode* prev=NULL;
+        f(root,target,m,prev);
+        // find ele
+        vector<int>ans;
+        prev=NULL;
+        solve(target,k,m,ans,prev);
         return ans;
     }
 };
