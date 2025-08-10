@@ -11,22 +11,21 @@
  */
 class Solution {
 public:
-    TreeNode* f(int ps,int pe,vector<int>& preorder,int is,int ie, vector<int>& inorder,map<int,int>&m){
-        if(ps>pe || is>ie)return NULL;
+     TreeNode*f(vector<int>& preorder, vector<int>& inorder,int l,int r,int head, map<int,int>&m){
+        if(l>r)return NULL;
 
-        TreeNode * node=new TreeNode(preorder[ps]);
-        
-        node->left=f(ps+1,ps+m[preorder[ps]]-is,preorder,is,m[preorder[ps]]-1,inorder,m);
-        node->right=f(ps+m[preorder[ps]]-is+1,pe,preorder,m[preorder[ps]]+1,pe,inorder,m);
+         TreeNode* root=new TreeNode(preorder[head]);
+         int ind =m[preorder[head]];
+         root->left=f(preorder,inorder,l,ind-1,head+1,m);
+         root->right=f(preorder,inorder,ind+1,r,ind-l+1+head,m);
 
-        return node;
-    } 
+         return root;
+     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int l=0,r=inorder.size()-1;
+        int head=0;
         map<int,int>m;
-        int n=inorder.size();
-        for(int i=0;i<n;i++){
-            m[inorder[i]]=i;
-        }
-       return f(0,n-1,preorder,0,n-1,inorder,m);
+        for(int i=0;i<inorder.size();i++)m[inorder[i]]=i;
+        return f(preorder,inorder,l,r,head,m);
     }
 };
