@@ -1,4 +1,4 @@
 # Write your MySQL query statement below
-SELECT customer_id , COUNT(customer_id ) AS count_no_trans FROM Visits 
-LEFT JOIN Transactions ON Visits.visit_id=Transactions.visit_id 
-WHERE Transactions.visit_id IS  NULL  GROUP BY customer_id order by count_no_trans desc;
+select v.customer_id,count(v.customer_id) as count_no_trans
+from Visits v left join Transactions t on v.visit_id=t.visit_id
+where t.transaction_id is NULL group by v.customer_id ;
