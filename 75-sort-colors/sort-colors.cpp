@@ -1,23 +1,20 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        // sort(nums.begin(),nums.end());
-        // dutch national fllag algorithm
-        // left me 0 hogi , mid me 1  and right me 2
+    //   dutch national flag algorithm
 
-        int left=0,mid=0,right=nums.size()-1;
-        while(mid<=right){
+    int low=0,mid=0,high=nums.size()-1;
+        while(mid<=high){
             if(nums[mid]==0){
-                swap(nums[left],nums[mid]);
-                left++;
+                swap(nums[low],nums[mid]);
+                low++;
                 mid++;
             }
             else if(nums[mid]==1)mid++;
-
-            else {
-                swap(nums[mid],nums[right]);
-                right--;
+            else if(nums[mid]==2){
+                swap(nums[mid],nums[high]);
+                high--;
             }
         }
-    }
+    }           
 };
