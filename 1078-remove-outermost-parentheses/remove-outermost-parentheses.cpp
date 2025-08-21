@@ -14,5 +14,8 @@ public:
             }
         }
         return ans;
+
+        // "(()())(())(()(()))"
+        // dry run this to know condition of balance in above
     }
 };
