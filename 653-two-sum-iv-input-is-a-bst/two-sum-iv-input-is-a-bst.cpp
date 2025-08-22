@@ -6,8 +6,9 @@ public:
         if (!root) return false;
         if (set.count(k - root->val)) return true;
         set.insert(root->val);
-        if(findTarget(root->left, k))return 1;;
-        if(findTarget(root->right, k))return 1;;
-        return 0;
+        int l=0,r=0;
+        if(findTarget(root->left, k))return l=1;;
+        if(findTarget(root->right, k))return r=1;;
+        return l|r;
     }
 };
