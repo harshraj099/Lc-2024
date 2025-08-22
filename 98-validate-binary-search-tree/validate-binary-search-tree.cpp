@@ -11,17 +11,22 @@
  */
 class Solution {
 public:
-    bool f(TreeNode* root,long long mini,long long maxi){
-        if(!root)return 1;
-            if(root->val <= mini || root->val>=maxi)return false;
+     int f(TreeNode* root, long long &prev){
+      if(!root)return 1; 
 
-            if(!f(root->left,mini,root->val))return false;
-            if(!f(root->right,root->val,maxi))return false;
+      int left=f(root->left,prev); 
+      if(!left)return left;
+ 
+     if(prev>=root->val)return 0; 
+    prev=root->val;
 
-            return true;
+      int right=f(root->right,prev);
+        if(!right)return right; 
+
+        return left&right;
     }
     bool isValidBST(TreeNode* root) {
-       return f(root,-1e12,1e12);  
-    //    range [min,max]
+        long long prev=-1e11;
+        return f(root,prev);
     }
 };
