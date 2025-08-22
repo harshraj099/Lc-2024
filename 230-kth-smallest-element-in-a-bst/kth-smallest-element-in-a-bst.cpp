@@ -11,24 +11,16 @@
  */
 class Solution {
 public:
-    void f(TreeNode* root, int k,int &store,int &ct){
-        if(!root)return ;
-  
-          f(root->left,k,store,ct);
-          ct++;
-           if(ct==k){
-           store=min(store,root->val);
-        }
-          f(root->right,k,store,ct);
-
-        return;
+    int f(TreeNode* root, int &k){
+      if(!root)return 0; 
+      int left=f(root->left,k); 
+      if(left)return left; k--; 
+      if(k==0)return root->val; 
+      int right=f(root->right,k);
+        if(right)return right; 
+        return left|right;
     }
     int kthSmallest(TreeNode* root, int k) {
-        int store=1e9;
-        if(!root)return 0;
-        int ct=0;
-        f(root,k,store,ct);
-
-        return store;
+        return f(root,k);
     }
 };
