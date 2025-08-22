@@ -11,65 +11,22 @@
  */
 class Solution {
 public:
-    TreeNode* f(TreeNode* root, int key,TreeNode* prev,int left,int right){
-        if(!root)return NULL;
-
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root)return root;
         if(root->val==key){
-            if(right){
-                if(!root->left){
-                  return  prev->right=root->right;
-                }
-                if(!root->right){
-                  return  prev->right=root->left;
-                }
-                prev->right=root->left;
-                 TreeNode* curr=root->left;
-            while(curr->right){
-                curr=curr->right;
-            }
-            curr->right=root->right;
-            }
-            else {
-                 if(!root->left){
-                  return  prev->left=root->right;
-                }
-                if(!root->right){
-                  return  prev->left=root->left;
-                }
-                prev->left=root->left;
-                 TreeNode* curr=root->left;
-            while(curr->right){
-                curr=curr->right;
-            }
-            curr->right=root->right;
-            }
+            if(!root->left)return root->right;
+            if(!root->right)return root->left;
 
-            return prev;
+            TreeNode* dummy=root->right;
+            while(dummy->left)dummy=dummy->left;
+            dummy->left=root->left;
+
+            return root->right;
         }
-        if(root->val<key){
-            f(root->right,key,root,0,1);
-        }
-        else {
-            f(root->left,key,root,1,0);
-        }
+
+        if(root->val<key)root->right=deleteNode(root->right,key);
+       else root->left=deleteNode(root->left,key);
 
         return root;
-    }
-    TreeNode* deleteNode(TreeNode* root, int key) {
-        if(!root)return NULL;
-        if(root->val==key){
-            if(!root->right)return root->left;
-            if(!root->left)return root->right;
-
-            // TreeNode* temp=root->right;
-            TreeNode* curr=root->left;
-            while(curr->right){
-                curr=curr->right;
-            }
-            curr->right=root->right;
-            return root->left;
-        }
-
-       return f(root,key,root,0,0);
     }
 };
