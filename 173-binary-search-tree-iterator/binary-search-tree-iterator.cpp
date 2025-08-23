@@ -11,27 +11,34 @@
  */
 class BSTIterator {
 public:
-     stack<TreeNode*>st;
-     void pushall(TreeNode* root){
-  if(!root)return ;
+    // consider  the example 1
+    // inorder - 3,7,9,15,20
+    // here next() is the current ele 3 the move to 7
+    // hasnext() if 7 has element next to it , i.e true
+    // so we use the stack ,
+    // tc- o(H) o.e the height thatswhy we aint using vector to store inorder already
+    // sc-o(1)
+
+    stack<TreeNode*>s;
+    void push(TreeNode* root){
         while(root){
-            st.push(root);
+            s.push(root);
             root=root->left;
         }
-     }
+    }
     BSTIterator(TreeNode* root) {
-      pushall(root);
+        push(root);
     }
     
     int next() {
-        TreeNode* node=st.top();
-        st.pop();
-      if(node->right) pushall(node->right);
-       return node->val;
+        TreeNode* node=s.top();
+        s.pop();
+        if(node->right)push(node->right);
+        return node->val;
     }
     
     bool hasNext() {
-        return !st.empty();
+        return !s.empty();
     }
 };
 
