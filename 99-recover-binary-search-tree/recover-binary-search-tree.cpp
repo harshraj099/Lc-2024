@@ -11,32 +11,31 @@
  */
 class Solution {
 public:
-    void f(TreeNode* root,TreeNode* &prev,TreeNode* &mid,TreeNode* &num1,TreeNode* &num2){
-        if(!root)return ;
-        // inorder
-            f(root->left,prev,mid,num1,num2);
-            
-            if(prev && root->val<prev->val){
-                if(!num1){
-                    num1=prev;
-                    mid=root;
-                }
-                else num2=root;
+ 
+    TreeNode* first;
+    TreeNode* last;
+    TreeNode* middle;
+    void solve(TreeNode* root,TreeNode* &prev){
+        if(root==NULL)return;
+        solve(root->left,prev);
+        if((root->val<prev->val)){
+            if(first==NULL){
+                first=prev;
+                middle=root;
             }
-
-                prev=root;
-            f(root->right,prev,mid,num1,num2);
+            else last=root;
+        }
+        prev=root;
+        solve(root->right,prev);
     }
     void recoverTree(TreeNode* root) {
-        TreeNode* prev=NULL;
-        TreeNode* mid=NULL;
-        TreeNode* num1=NULL;
-        TreeNode* num2=NULL;
-
-         f(root,prev,mid,num1,num2);
-        
-        if(!num2)swap(num1->val,mid->val);  
-        else swap(num1->val,num2->val); 
-         
+         first = middle = last = NULL;
+           TreeNode* prev=new TreeNode(INT_MIN);   
+        solve(root,prev);
+        // there could be at most 2 places where violation
+        // could exist , if violation=2 swap first and last else 
+        // first and middle 
+        if(first && last)swap(first->val,last->val);
+        else swap(first->val,middle->val);
     }
 };
