@@ -1,58 +1,57 @@
 class Solution {
 public:
-     void solve(vector<int> &arr,int l,int mid,int r,int &ct){
-         int j = mid + 1;
-    for (int i = l; i <= mid; i++) {
-        while (j <= r && (long long)arr[i] > 2LL * arr[j]) {
-            j++;
+    int merge(int i,int mid,int j,vector<int>& nums){
+        int l=i,r=mid+1;
+
+        int cnt=0;
+        while(l<=mid && r<=j){
+            if(nums[l]>2LL*nums[r]){
+                cnt+=(mid-l+1);
+                r++;
+            }
+            else l++;
         }
-        ct += (j - (mid + 1));
-    }
-        int ptr=mid+1;
+        l=i,r=mid+1;
         vector<int>temp;
-        int base=l,limit=r;;
-        while(l<=mid && ptr<=r){
-            if(arr[l]>arr[ptr]){
-            //    if(arr[l]>2LL*arr[ptr]) ct+=(mid-l+1);
-                temp.push_back(arr[ptr]);
-                ptr++;
+        while(l<=mid && r<=j){
+            if(nums[l]>nums[r]){
+                temp.push_back(nums[r]);
+                r++;
             }
             else {
-                temp.push_back(arr[l]);
+                temp.push_back(nums[l]);
                 l++;
             }
         }
-        
+
         while(l<=mid){
-             temp.push_back(arr[l]);
-             l++;
+            temp.push_back(nums[l]);
+            l++;
         }
-        
-         while(ptr<=r){
-             temp.push_back(arr[ptr]);
-             ptr++;
+
+        while(r<=j){
+        temp.push_back(nums[r]);
+        r++;
         }
-        
-        for(int i=base;i<=limit;i++){
-            arr[i]=temp[i-base];
+
+        for(int k=0;k<temp.size();k++){
+            nums[k+i]=temp[k];
         }
-        
+
+        return cnt;
     }
-    
-    void merge(vector<int> &arr,int l,int r,int &ct){
-        if(l>=r)return;
-        
-        int mid=(l+r)/2;
-        merge(arr,l,mid,ct);
-        
-        merge(arr,mid+1,r,ct);
-        
-       solve(arr,l,mid,r,ct);
-       
+    int f(int i,int j,vector<int>& nums){
+        if(i>=j)return 0;
+        int mid=(i+j)/2;
+        int left=f(i,mid,nums);
+        int right=f(mid+1,j,nums);
+
+       int ans=merge(i,mid,j,nums);
+
+        return ans+left+right; 
     }
     int reversePairs(vector<int>& nums) {
-        int ct=0;
-        merge(nums,0,nums.size()-1,ct);
-        return ct;
+        int n=nums.size();
+       return f(0,n-1,nums);
     }
 };
