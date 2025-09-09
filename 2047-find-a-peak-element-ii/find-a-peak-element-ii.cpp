@@ -1,44 +1,33 @@
 class Solution {
 public:
     vector<int> findPeakGrid(vector<vector<int>>& mat) {
-        int n=mat.size();
-        int m=mat[0].size();
-            // vector<int>v;
-        for(int i=0;i<n;i++){
+        int n = mat.size();
+        int m = mat[0].size();
 
-            int mid=max_element(mat[i].begin(),mat[i].end())-mat[i].begin();
-             int left=mid-1>=0?mat[i][mid-1]:-1;
-                 int right=mid+1<m?mat[i][mid+1]:-1;
+        int low = 0, high = m - 1;
 
-                  if(left<mat[i][mid] && right<mat[i][mid]){
-                     int top=i-1>=0?mat[i-1][mid]:-1;
-                 int bottom=i+1<n?mat[i+1][mid]:-1;
-                    if( top<mat[i][mid] && bottom<mat[i][mid]){  
-                      return {i,mid};
-                    }
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            // Find row index with maximum element in column mid
+            int maxRow = 0;
+            for (int i = 1; i < n; i++) {
+                if (mat[i][mid] > mat[maxRow][mid]) {
+                    maxRow = i;
                 }
+            }
 
+            int left = (mid - 1 >= 0) ? mat[maxRow][mid - 1] : -1;
+            int right = (mid + 1 < m) ? mat[maxRow][mid + 1] : -1;
 
-            // int low=0;
-            // int high=m-1;
-            // int mid;
-            // while(low<=high){
-            //     mid=(low+high)/2;
-            //     int left=mid-1>=0?mat[i][mid-1]:-1;
-            //      int right=mid+1<m?mat[i][mid+1]:-1;
-            //     if(left<mat[i][mid] && right<mat[i][mid]){
-            //          int top=i-1>=0?mat[i-1][mid]:-1;
-            //      int bottom=i+1<n?mat[i+1][mid]:-1;
-            //         if( top<mat[i][mid] && bottom<mat[i][mid]){  
-            //           return {i,mid};
-            //         }
-            //          else low=mid+1;
-            //     }
-            //     else if(left<mat[i][mid] && right>mat[i][mid])low=mid+1;
-            //     else if(left>mat[i][mid] && right>mat[i][mid])low=mid+1;
-            //     else high=mid-1;
-            // }
+            if (mat[maxRow][mid] > left && mat[maxRow][mid] > right) {
+                return {maxRow, mid};
+            } else if (mat[maxRow][mid] < left) {
+                high = mid - 1; // go left
+            } else {
+                low = mid + 1; // go right
+            }
         }
-        return {};
+        return {-1, -1}; // should never happen
     }
 };
