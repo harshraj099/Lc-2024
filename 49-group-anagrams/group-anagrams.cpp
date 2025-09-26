@@ -1,23 +1,31 @@
+
 class Solution {
 public:
+    string getSignature(const string& s) {
+        vector<int> count(26, 0);
+        for (char c : s) {
+            count[c - 'a']++;
+        }
+
+        string ss="";
+        for (int i = 0; i < 26; i++) {
+           ss.append(count[i],i+'a');
+        }
+        return ss;
+    }
+
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        map<string,vector<int>>m;
-        for(int i=0;i<strs.size();i++){
-            string s=strs[i];
-            sort(s.begin(),s.end());
-            // if(m.find(s)!=m.end()){
-            //     m[s].push_back(i);
-            // }
-              m[s].push_back(i);
+        vector<vector<string>> result;
+        unordered_map<string, vector<string>> groups;
+
+        for (const string& s : strs) {
+            groups[getSignature(s)].push_back(s);
         }
-        vector<vector<string>>ans;
-        for(auto x:m){
-            vector<string>st;
-            for(auto it:x.second){
-                st.push_back(strs[it]);
-            }
-            ans.push_back(st);
+
+        for (const auto& entry : groups) {
+            result.push_back(entry.second);
         }
-        return ans;
+
+        return result;
     }
 };
