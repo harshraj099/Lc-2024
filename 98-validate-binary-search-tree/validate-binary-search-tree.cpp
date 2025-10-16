@@ -11,18 +11,12 @@
  */
 class Solution {
 public:
-     int f(TreeNode* root,long mini, long maxi){
-      if(!root)return 1; 
-
-        if(root->val>mini && root->val<maxi){
-            int left=f(root->left,mini,root->val); 
-            int right=f(root->right,root->val,maxi);
-
-            return left&right;
-        }
-       else return 0;
+    bool v(TreeNode* n, long l, long h) {
+        if (!n) return true;
+        if (n->val <= l || n->val >= h) return false;
+        return v(n->left, l, n->val) && v(n->right, n->val, h);
     }
     bool isValidBST(TreeNode* root) {
-        return f(root,-1e11,1e11);
+       return v(root, LONG_MIN, LONG_MAX);
     }
 };
