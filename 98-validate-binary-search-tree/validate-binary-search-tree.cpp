@@ -11,19 +11,15 @@
  */
 class Solution {
 public:
-    // bool v(TreeNode* n, long l, long h) {
-    //     if (!n) return true;
-    //     if (n->val <= l || n->val >= h) return false;
-    //     return v(n->left, l, n->val) && v(n->right, n->val, h);
-    // }
+     bool validate(TreeNode* node, long long low, long long high) {
+        if (!node) return true;
+        if (node->val <= low || node->val >= high) return false;
+
+        return validate(node->left, low, node->val) &&
+               validate(node->right, node->val, high);
+    }
+
     bool isValidBST(TreeNode* root) {
-    //    return v(root, LONG_MIN, LONG_MAX);
-     function<bool(TreeNode*,long long,long long)> f=
-      [&](TreeNode* n,long long lo,long long hi){
-        if(!n)return true;
-        if(!(lo<n->val&&n->val<hi))return false;
-        return f(n->left,lo,n->val)&&f(n->right,n->val,hi);
-      };
-    return f(root,LLONG_MIN,LLONG_MAX);
+        return validate(root, LLONG_MIN, LLONG_MAX);
     }
 };
