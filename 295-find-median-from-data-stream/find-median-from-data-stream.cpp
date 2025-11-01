@@ -1,28 +1,23 @@
 class MedianFinder {
 public:
-    // define max and min heap
-    priority_queue<int>maxh;
-    priority_queue<int,vector<int>,greater<int>>minh;
+    priority_queue<int>small;
+    priority_queue<int,vector<int>,greater<int>>large;
+
     MedianFinder() {}
     
     void addNum(int num) {
-        // note
-        // minh is actually maxlist and maxh is actuall minlist
-        // put in minlist then get max and put in maxlist then check conditon 
-        // length of min and max list diff <=1 
-        maxh.push(num);
-        minh.push(maxh.top());
-        maxh.pop();
-        // now check
-        if(minh.size()>maxh.size()){
-            maxh.push(minh.top());
-            minh.pop();
+        small.push(num);
+        large.push(small.top());
+        small.pop();
+        if(small.size()<large.size()){
+            small.push(large.top());
+            large.pop();
         }
     }
     
     double findMedian() {
-        if(maxh.size()==minh.size())return (minh.top()+maxh.top())/2.0;
-        return maxh.top();
+        if(small.size()==large.size())return (small.top()+large.top())/2.0;
+        return small.top();
     }
 };
 
