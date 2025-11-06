@@ -1,22 +1,23 @@
 class Solution {
 public:
-    string f(int n){
-        if(n==1)return "1";
-        string  s=f(n-1);
-
-        string t="";
-        for(int i=0;i<s.size();){
-            int j=i+1;
-            while(j<s.size() && s[j]==s[i]){
-                j++;
-            }
-            t+=to_string(j-i)+s[i];
-            i=j;
-        }
-
-        return t;
-    }
     string countAndSay(int n) {
-        return f(n);
+      string ans="1";
+      n--;
+      while(n--){
+        string res="";
+        int ct=1;
+        char ch=ans[0];
+        for(int i=1;i<ans.size();i++){
+            if(ans[i]==ch)ct++;
+            else {
+                res+=to_string(ct)+ch;
+                ch=ans[i];
+                ct=1;
+            }
+        }
+        res+=to_string(ct)+ch;
+        ans=res;
+      }
+      return ans;
     }
 };
