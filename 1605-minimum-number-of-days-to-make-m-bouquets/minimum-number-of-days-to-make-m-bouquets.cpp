@@ -1,28 +1,36 @@
 class Solution {
 public:
-    int minDays(vector<int>& bloomDay, int m, int k) {
-        int low=*min_element(bloomDay.begin(),bloomDay.end());
-       int high=*max_element(bloomDay.begin(),bloomDay.end());
-       int mid;
-       int days=-1;
-       while(low<=high){
-           mid=(low+high)/2;
-           int cnt=0;
-                 int bokey=0;
-           for(int i=0;i<bloomDay.size();i++){
-               if(bloomDay[i]<=mid)cnt++;
-               else{
-                   bokey+=cnt/k;
-                    cnt=0;
-               }
-               }
-                bokey+=cnt/k;
-           if(bokey>=m){
-              days=mid;
-              high=mid-1; 
-           }
-           else low= mid+1;
-       }
-        return days;
+    int f(int day,vector<int>& bloomDay,int k){
+        int sum=0;
+        int ct=0;
+        for(int i=0;i<bloomDay.size();i++){
+            if(bloomDay[i]<=day){
+                sum++;
+            }
+            else{
+                ct+=(sum/k);
+                sum=0;
+            }
+        }
+         ct+=(sum/k);
+         return ct;
+    }
+        int minDays(vector<int>& bloomDay, int m, int k) {
+        int l=0;
+        int maxi=*max_element(bloomDay.begin(),bloomDay.end());
+        int r=maxi;
+        int mid;
+        while(l<=r){
+            mid=(l+r)/2;
+            int num=f(mid,bloomDay,k);
+            if(num<m){
+                l=mid+1;
+            }
+            else {
+             r=mid-1;
+            }
+        }
+        if(l>maxi)return -1;
+        return l;
     }
 };
