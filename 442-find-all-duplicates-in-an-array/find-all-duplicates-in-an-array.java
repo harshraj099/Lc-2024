@@ -1,13 +1,20 @@
 class Solution {
     public List<Integer> findDuplicates(int[] nums) {
-        Map<Integer,Integer>m=new HashMap();
-        List<Integer>list=new ArrayList<>();
+        
+        // using sign fliping as total no equal to indices
+        // if duplicate i,e no. is already reached and must be a -ve
+        List<Integer> res = new ArrayList<>();
 
-        for(int n:nums){
-            if(m.containsKey(n))list.add(n);
-            m.put(n,1);
+        for (int i = 0; i < nums.length; i++) {
+            int idx = Math.abs(nums[i]) - 1;
+
+            if (nums[idx] < 0) {
+                res.add(idx + 1);
+            }
+
+            nums[idx] = -nums[idx];
         }
 
-        return list;
+        return res;
     }
 }
