@@ -7,14 +7,14 @@ class Solution {
 
             if(nums[mid]==target)return mid;
             // left sorted
-            else if(nums[low]<=nums[mid]){
-                if(nums[low]<=target && nums[mid]>=target)high=mid-1;
+            else if(nums[low]<=nums[mid]){     // in left half sorted 
+                if(nums[low]<=target && nums[mid]>=target)high=mid-1; // focus only on left part of left half
                 else low=mid+1;
             }
 
             // right sorted
             else {
-                 if(nums[mid]<=target && nums[high]>=target)low=mid+1;
+                 if(nums[mid]<=target && nums[high]>=target)low=mid+1; // focus only on right part of right half
                 else high=mid-1;
             }
         }
