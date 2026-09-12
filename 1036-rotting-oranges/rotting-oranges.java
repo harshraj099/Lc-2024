@@ -1,3 +1,17 @@
+class pair{
+    private int first, second;
+    
+    public pair(int first,int second){
+        this.first=first;
+        this.second=second;
+    }
+    public int getFirst(){
+        return first;
+    }
+    public int getSecond(){
+        return second;
+    }
+};
 class Solution {
     public int orangesRotting(int[][] grid) {
         //bfs
@@ -8,12 +22,12 @@ class Solution {
         int [][]vis=new int[n][m];
         
 
-        Queue<int[]>q = new LinkedList<>();
+        Queue<pair>q = new LinkedList<>();
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 vis[i][j]=0;
                 if(grid[i][j]==2){
-                q.add(new int[]{i,j});
+                q.add(new pair(i,j));
                 vis[i][j]=1;}
             }
         }
@@ -21,8 +35,8 @@ class Solution {
             int len=q.size();
 
             for(int i=0;i<len;i++){
-                int r=q.peek()[0];
-                int c=q.peek()[1];
+                int r=q.peek().getFirst();
+                int c=q.peek().getSecond();
 
                 q.remove();
                 for(int []it:dirc){
@@ -32,7 +46,7 @@ class Solution {
                     if( row>=0 && row<n && col >=0 && col<m && vis[row][col]==0 && grid[row][col]==1){
                         vis[row][col]=1;
                         grid[row][col]=2;
-                        q.add(new int[]{row,col});
+                        q.add(new pair(row,col));
                     }
                 }
             }
